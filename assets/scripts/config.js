@@ -2,7 +2,7 @@
 
 const config = {
   apiOrigins: {
-    production: 'https://thawing-scrubland-72649.herokuapp.com/'
+    production: 'https://thawing-scrubland-72649.herokuapp.com'
   }
 }
 
