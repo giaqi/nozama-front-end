@@ -78,7 +78,7 @@ const addHandlers = function () {
   $('input[data-newuser]').on('change', showPasswordConfirmation)
   $('#account-management').on('click', handlebars.accountManagement)
   $('#content').on('click', 'button[data-cancelChange]', ui.hidePasswordChange)
-  $('#content').on('click', 'a[data-changePassword]', ui.showPasswordChange)
+  $('#content').on('click', 'a[data-changePassword]', ui.passwordChangeToggle)
   $('#alertModal').on('hidden.bs.modal', clearAlertModal)
   $('#alertModal').on('shown.bs.modal', fadeModal)
 }

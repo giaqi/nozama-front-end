@@ -1,7 +1,13 @@
 'use strict'
 
-const showPasswordChange = function () {
-  $('#change-password-area').removeClass('hidden')
+const passwordChangeToggle = function () {
+  const hidden = $('#change-password-area').hasClass('hidden')
+
+  if (hidden) {
+    $('#change-password-area').removeClass('hidden')
+  } else {
+    $('#change-password-area').addClass('hidden')
+  }
 }
 
 const hidePasswordChange = function (event) {
@@ -14,7 +20,7 @@ const clearUpdatePassword = function () {
 }
 
 module.exports = {
-  showPasswordChange,
+  passwordChangeToggle,
   hidePasswordChange,
   clearUpdatePassword
 }
