@@ -9,7 +9,12 @@ const hidePasswordChange = function (event) {
   $('#content #change-password-area').addClass('hidden')
 }
 
+const clearUpdatePassword = function () {
+  $('#change-password-form :input').val('')
+}
+
 module.exports = {
   showPasswordChange,
-  hidePasswordChange
+  hidePasswordChange,
+  clearUpdatePassword
 }

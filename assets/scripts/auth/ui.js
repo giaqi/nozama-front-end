@@ -1,5 +1,6 @@
 'use strict'
 const store = require('../store.js')
+const ui = require('../ui')
 
 // Sign Up promises
 const signUpSuccess = function (response, status, xhr) {
@@ -32,9 +33,14 @@ const changePasswordSuccess = function (response, status, xhr) {
   $('#alert-modal-content').html('<p>Successfully changed your password</p>')
   $('#alertModal').modal('show')
   $('#change-password-area').addClass('hidden')
+  ui.clearUpdatePassword()
 }
 
 const changePasswordFailure = function (response, status, xhr) {
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html('<p>We couldn\'t change your password.</p>')
+  $('#alertModal').modal('show')
+  ui.clearUpdatePassword()
 }
 
 const signOutSuccess = function (response, status, xhr) {
