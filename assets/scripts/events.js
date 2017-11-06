@@ -13,11 +13,19 @@ const signOutUser = function (event) {
 const formLoginAction = function (event) {
   event.preventDefault()
   const newuser = $('input[data-newuser]').prop('checked')
+  const p = $('input[name="credentials[password]"]').val()
+  const c = $('input[name="credentials[password_confirmation]"]').val()
   const data = getFormFields(event.target)
   if (newuser) {
-    authApi.signUp(data)
-      .then(authUI.signUpSuccess)
-      .catch(authUI.signUpFailure)
+    if (p === c) {
+      authApi.signUp(data)
+        .then(authUI.signUpSuccess)
+        .catch(authUI.signUpFailure)
+    } else {
+      $('input[name="credentials[password]"]').val('')
+      $('input[name="credentials[password_confirmation]"]').val('')
+      $('#signInComment').html('<div class="alert alert-danger" role="alert"><p>Sorry, your passwords do not match.</p></div>')
+    }
   } else {
     delete data.credentials.password_confirmation
     authApi.signIn(data)

@@ -10,7 +10,7 @@ const signUpSuccess = function (response, status, xhr) {
 }
 
 const signUpFailure = function (response, status, xhr) {
-  $('#signUpComment').html('<br/><p><mark>Sorry, those login credentials cannot be used.</mark></p>')
+  $('#signInComment').html('<div class="alert alert-danger" role="alert"><p>Sorry, those login credentials cannot be used.</p></div>')
   clearPasswordFields()
 }
 
@@ -22,7 +22,7 @@ const signInSuccess = function (response, status, xhr) {
   clearModals()
 }
 const signInFailure = function (response, status, xhr) {
-  $('#signInComment').html('<br/><p><mark>Please check login credentials and try again.</mark></p>')
+  $('#signInComment').html('<div class="alert alert-danger" role="alert"><p>Please check login credentials and try again.</p></div>')
   clearPasswordFields()
 }
 
