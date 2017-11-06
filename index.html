@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-      <title>Example</title>
+      <title>Nozama</title>
       <meta name="viewport" content="width=device-width, initial-scale=1">
 
       <!-- Do not add `link` tags-->
@@ -12,14 +12,97 @@
       <script src="public/application.js" type="text/javascript" charset="utf-8" defer></script>
     </head>
     <body class="container-fluid">
-      <h1>Example</h1>
+      <!-- Define Navbar -->
+      <div class="container-fluid">
+        <nav class="navbar navbar-inverse">
+          <div class="container-fluid">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#siteNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="#">Nozama</a>
+            </div>
+            <div class="collapse navbar-collapse" id="siteNavbar">
+              <ul class="nav navbar-nav">
+                <li data-user="user" class="hidden">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Dropdown 1 <span class="caret"></span></a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" data-view="new-list" id="nav-new-list">Dropdown 1 item</a></li>
+                    <li><a href="#" data-view="index-lists" id="nav-index-lists">Dropdown 1 item 2</a></li>
+                  </ul>
+                </li>
+                <li data-user="user" class="hidden">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Items <span class="caret"></span></a>
 
-      <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
-      eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex
-      ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat
-      cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-      est laborum.</p>
+              </ul>
+              <ul class="nav navbar-nav navbar-right">
+                <li data-user="no-user"><a href="#login-modal" data-toggle="modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+                <li data-user="user" class="hidden">
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="current-user">Current user</a>
+                  <ul class="dropdown-menu">
+                    <li><a href="#" id="account-management">Account Management</a></li>
+                    <li><a href="#" id="sign-out">Sign Out</a></li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </nav>
+      </div>
+      <div id="content"></div>
+      <!-- Define Modals  -->
+
+      <!-- Sign-In modal -->
+      <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="buttonLabel" data-backdrop="false" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="buttonLabel">Login</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+              <!-- User form for email and password -->
+              <form id="signin">
+                <div class="form-group">
+                  <label for="emailLabel">Email address</label>
+                  <input name="credentials[email]" type="email" class="form-control" aria-describedby="emailHelp" placeholder="Enter email">
+                  <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+                </div>
+                <div class="form-group">
+                  <label for="passwordLabel">Password</label>
+                  <input name="credentials[password]" type="password" class="form-control"placeholder="Password" required>
+                </div>
+                <div class="form-group hidden" data-newuser>
+                  <label for="passwordLabel">Confirm Password</label>
+                  <input name="credentials[password_confirmation]" type="password" class="form-control"  placeholder="Password Confirmation">
+                </div>
+                <div class="form-check">
+                  <!-- New users will be able to register, input will be inserted automatically -->
+                  <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" data-newuser>
+                    Register new user?
+                  </label>
+                </div>
+                <div>
+                  <section id="signInComment"></section>
+                </div>
+                <button type="submit" class="btn btn-primary">Submit</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Modal -->
+      <div class="modal fade" id="alertModal" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <!-- Modal content-->
+          <div class="modal-body alert" id="alert-modal-content"></div>
+        </div>
+      </div>
     </body>
 </html>
