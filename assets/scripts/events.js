@@ -2,6 +2,8 @@
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./auth/api')
 const authUI = require('./auth/ui')
+const handlebars = require('./handlebars')
+const ui = require('./ui')
 
 const signOutUser = function (event) {
   event.preventDefault()
@@ -41,6 +43,7 @@ const changePassword = function (event) {
     .then(authUI.changePasswordSuccess)
     .catch(authUI.changePasswordFailure)
 }
+
 const tryCollapse = function () {
   if ($(window).width() <= 767) {
     $('#siteNavbar').collapse('toggle')
@@ -62,6 +65,9 @@ const addHandlers = function () {
   $('#change-password').on('submit', changePassword)
   $('.navbar-btn').on('click', tryCollapse)
   $('input[data-newuser]').on('change', showPasswordConfirmation)
+  $('#account-management').on('click', handlebars.accountManagement)
+  $('#content').on('click', 'button[data-cancelChange]', ui.hidePasswordChange)
+  $('#content').on('click', 'a[data-changePassword]', ui.showPasswordChange)
 }
 
 module.exports = {

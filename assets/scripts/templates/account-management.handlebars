@@ -1,0 +1,34 @@
+<div class="container-fluid">
+  <section id="title">
+    <div class="jumbotron">
+      <h1>Nozama</h1>
+      <h3>Account Management</h3>
+    </div>
+  </section>
+  <section id="links">
+    <div class="container-fluid">
+      <div class="row"><a href="#" data-backToShopping>Go back...</a></div>
+      <div class="row"><a href="#" data-changePassword>Change password</a></div>
+    </div>
+    <div class="hidden" id="change-password-area">
+      <form id="signin">
+        <div class="form-group">
+          <label for="passwordLabel">Current Password</label>
+          <input name="passwords[old]" type="password" class="form-control" placeholder="Current Password" required>
+        </div>
+        <div class="form-group">
+          <label for="passwordLabel">New Password</label>
+          <input name="passwords[new]" type="password" class="form-control"  placeholder="New Password" required>
+        </div>
+        <div>
+          <section id="changeComment"></section>
+        </div>
+        <button class="btn btn-secondary" data-cancelChange>Cancel</button>
+        <button type="submit" class="btn btn-primary" data-changeSubmit>Submit</button>
+      </form>
+    </div>
+
+  </section>
+
+  <section id="purchase-history"></section>
+</div>
