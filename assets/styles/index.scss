@@ -1,3 +1,9 @@
 $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
+
+// TODO: Get this out of here
+.modal-backdrop.in {
+  filter: alpha(opacity=50);
+  opacity: 0;
+}
