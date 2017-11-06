@@ -11,6 +11,7 @@ const signUpSuccess = function (response, status, xhr) {
 
 const signUpFailure = function (response, status, xhr) {
   $('#signUpComment').html('<br/><p><mark>Sorry, those login credentials cannot be used.</mark></p>')
+  clearPasswordFields()
 }
 
 // Sign In promises
@@ -22,6 +23,7 @@ const signInSuccess = function (response, status, xhr) {
 }
 const signInFailure = function (response, status, xhr) {
   $('#signInComment').html('<br/><p><mark>Please check login credentials and try again.</mark></p>')
+  clearPasswordFields()
 }
 
 // Change Password promises
@@ -48,6 +50,11 @@ const clearModals = function () {
   $('input[name]').val('')
   $('#signInComment').text('')
   $('#signUpComment').text('')
+}
+
+const clearPasswordFields = () => {
+  $('input[name="credentials[password]"]').val('')
+  $('input[name="credentials[password_confirmation]"]').val('')
 }
 
 const toggleUserDisplay = function (check) {

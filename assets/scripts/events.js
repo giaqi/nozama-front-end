@@ -40,6 +40,7 @@ const tryCollapse = function () {
 }
 
 const showPasswordConfirmation = function (event) {
+  $('#signInComment').empty()
   if (event.target.checked) {
     $('div[data-newuser]').removeClass('hidden')
   } else {
