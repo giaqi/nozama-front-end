@@ -59,15 +59,28 @@ const showPasswordConfirmation = function (event) {
   }
 }
 
+const clearAlertModal = function () {
+  $('#alert-modal-content').removeClass('alert-danger alert-success')
+  $('#alert-modal-content').empty()
+}
+
+const fadeModal = function () {
+  setTimeout(() => {
+    $('#alertModal').modal('hide')
+  }, 1000)
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
-  $('#change-password').on('submit', changePassword)
+  $('#content').on('submit', '#change-password-form', changePassword)
   $('.navbar-btn').on('click', tryCollapse)
   $('input[data-newuser]').on('change', showPasswordConfirmation)
   $('#account-management').on('click', handlebars.accountManagement)
   $('#content').on('click', 'button[data-cancelChange]', ui.hidePasswordChange)
   $('#content').on('click', 'a[data-changePassword]', ui.showPasswordChange)
+  $('#alertModal').on('hidden.bs.modal', clearAlertModal)
+  $('#alertModal').on('shown.bs.modal', fadeModal)
 }
 
 module.exports = {

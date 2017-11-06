@@ -28,12 +28,13 @@ const signInFailure = function (response, status, xhr) {
 
 // Change Password promises
 const changePasswordSuccess = function (response, status, xhr) {
-  $('#changeComment').html('<br/><p>Password change successful.</p>')
-  clearModals()
+  $('#alert-modal-content').addClass('alert-success')
+  $('#alert-modal-content').html('<p>Successfully changed your password</p>')
+  $('#alertModal').modal('show')
+  $('#change-password-area').addClass('hidden')
 }
 
 const changePasswordFailure = function (response, status, xhr) {
-  $('#changeComment').html('<br/><p><mark>Could not update password.</mark></p>')
 }
 
 const signOutSuccess = function (response, status, xhr) {
