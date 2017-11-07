@@ -37,3 +37,15 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 .footer-space {
   margin-right: 15px;
 }
+
+.button-place {
+  bottom: 10px;
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+}
+
+.price-place {
+  font-size: 20px;
+  margin-left: 25px;
+}
