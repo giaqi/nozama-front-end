@@ -16,4 +16,5 @@ $(() => {
 
 $(() => {
   events.addHandlers()
+  events.loadItemIndex()
 })
