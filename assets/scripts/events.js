@@ -63,8 +63,6 @@ const showPasswordConfirmation = function (event) {
 
 const loadItemIndex = function () {
   // event.preventDefault()
-  const x = 2
-  console.log(x)
   itemApi.indexItems()
     .then(itemUI.onIndexSuccess)
     .catch(itemUI.onIndexFailure)
@@ -81,6 +79,20 @@ const fadeModal = function () {
   }, 1000)
 }
 
+const showItem = function (event) {
+  const productId = event.target.attributes['id'].value
+  itemApi.getItem(productId)
+    .then(itemUI.onGetSuccess)
+    .catch(itemUI.onGetFailure)
+}
+
+const qtyChange = function (event) {
+  const quantity = $(event.target).val()
+  const price = $('span[data-price]').attr('data-price')
+  const totalPrice = quantity * price
+  $('span[data-total-price]').text('$' + totalPrice.toFixed(2))
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -92,6 +104,8 @@ const addHandlers = function () {
   $('#content').on('click', 'a[data-changePassword]', ui.passwordChangeToggle)
   $('#alertModal').on('hidden.bs.modal', clearAlertModal)
   $('#alertModal').on('shown.bs.modal', fadeModal)
+  $('#content').on('click', '.small-product', showItem)
+  $('#item-view-modal').on('change keyup', 'input[data-itemqty]', qtyChange)
 }
 
 module.exports = {
