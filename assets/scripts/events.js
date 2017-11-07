@@ -2,6 +2,8 @@
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./auth/api')
 const authUI = require('./auth/ui')
+const itemApi = require('./items/api')
+const itemUI = require('./items/ui')
 const handlebars = require('./handlebars')
 const ui = require('./ui')
 
@@ -59,6 +61,15 @@ const showPasswordConfirmation = function (event) {
   }
 }
 
+const loadItemIndex = function () {
+  // event.preventDefault()
+  const x = 2
+  console.log(x)
+  itemApi.indexItems()
+    .then(itemUI.onIndexSuccess)
+    .catch(itemUI.onIndexFailure)
+}
+
 const clearAlertModal = function () {
   $('#alert-modal-content').removeClass('alert-danger alert-success')
   $('#alert-modal-content').empty()
@@ -84,5 +95,6 @@ const addHandlers = function () {
 }
 
 module.exports = {
-  addHandlers
+  addHandlers,
+  loadItemIndex
 }

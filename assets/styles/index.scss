@@ -7,3 +7,18 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
   filter: alpha(opacity=50);
   opacity: 0;
 }
+
+.small-product {
+  display: block;
+  height: 25vw;
+  margin: auto;
+  width: 25vw;
+}
+
+.search-box {
+  margin: auto;
+}
+
+.jumbotron h1 {
+  text-align: center;
+}
