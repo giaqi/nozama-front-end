@@ -63,8 +63,6 @@ const showPasswordConfirmation = function (event) {
 
 const loadItemIndex = function () {
   // event.preventDefault()
-  const x = 2
-  console.log(x)
   itemApi.indexItems()
     .then(itemUI.onIndexSuccess)
     .catch(itemUI.onIndexFailure)
@@ -81,6 +79,13 @@ const fadeModal = function () {
   }, 1000)
 }
 
+const showItem = function (event) {
+  const productId = event.target.attributes['id'].value
+  itemApi.getItem(productId)
+    .then(itemUI.onGetSuccess)
+    .catch(itemUI.onGetFailure)
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -92,6 +97,7 @@ const addHandlers = function () {
   $('#content').on('click', 'a[data-changePassword]', ui.passwordChangeToggle)
   $('#alertModal').on('hidden.bs.modal', clearAlertModal)
   $('#alertModal').on('shown.bs.modal', fadeModal)
+  $('#content').on('click', '.small-product', showItem)
 }
 
 module.exports = {

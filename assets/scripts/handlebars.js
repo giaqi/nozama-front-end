@@ -15,7 +15,8 @@ const showItemIndex = function (data) {
 
 const showItemSmall = function (data) {
   const showItemSmallHtml = showItemTemplate({product: data})
-  showContent(showItemSmallHtml)
+  $('#item-view').empty()
+  $('#item-view').append(showItemSmallHtml)
 }
 
 const showContent = function (data) {
