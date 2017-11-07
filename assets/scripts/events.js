@@ -2,6 +2,8 @@
 const getFormFields = require('../../lib/get-form-fields')
 const authApi = require('./auth/api')
 const authUI = require('./auth/ui')
+const itemApi = require('./items/api')
+const itemUI = require('./items/ui')
 const handlebars = require('./handlebars')
 const ui = require('./ui')
 
@@ -59,6 +61,13 @@ const showPasswordConfirmation = function (event) {
   }
 }
 
+const loadItemIndex = function () {
+  // event.preventDefault()
+  itemApi.indexItems()
+    .then(itemUI.onIndexSuccess)
+    .catch(itemUI.onIndexFailure)
+}
+
 const clearAlertModal = function () {
   $('#alert-modal-content').removeClass('alert-danger alert-success')
   $('#alert-modal-content').empty()
@@ -68,6 +77,20 @@ const fadeModal = function () {
   setTimeout(() => {
     $('#alertModal').modal('hide')
   }, 1000)
+}
+
+const showItem = function (event) {
+  const productId = event.target.attributes['id'].value
+  itemApi.getItem(productId)
+    .then(itemUI.onGetSuccess)
+    .catch(itemUI.onGetFailure)
+}
+
+const qtyChange = function (event) {
+  const quantity = $(event.target).val()
+  const price = $('span[data-price]').attr('data-price')
+  const totalPrice = quantity * price
+  $('span[data-total-price]').text('$' + totalPrice.toFixed(2))
 }
 
 const addHandlers = function () {
@@ -81,8 +104,11 @@ const addHandlers = function () {
   $('#content').on('click', 'a[data-changePassword]', ui.passwordChangeToggle)
   $('#alertModal').on('hidden.bs.modal', clearAlertModal)
   $('#alertModal').on('shown.bs.modal', fadeModal)
+  $('#content').on('click', '.small-product', showItem)
+  $('#item-view-modal').on('change keyup', 'input[data-itemqty]', qtyChange)
 }
 
 module.exports = {
-  addHandlers
+  addHandlers,
+  loadItemIndex
 }

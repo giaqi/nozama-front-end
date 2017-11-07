@@ -7,3 +7,50 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
   filter: alpha(opacity=50);
   opacity: 0;
 }
+
+.small-product {
+  display: block;
+  height: 25vw;
+  margin: auto;
+  width: 25vw;
+}
+
+.search-box {
+  margin: auto;
+}
+
+.jumbotron h1 {
+  text-align: center;
+}
+
+.modal-img {
+  display: block;
+  height: 50vh;
+  margin: auto;
+  width: 50vh;
+}
+
+.product-title {
+  text-align: center;
+}
+
+.footer-space {
+  margin-right: 15px;
+}
+
+.button-place {
+  bottom: 10px;
+  padding: 10px;
+  position: absolute;
+  right: 10px;
+}
+
+.price-place {
+  font-size: 20px;
+  margin-left: 25px;
+}
+
+.get-failure {
+  height: 78vh;
+  text-align: center;
+}
