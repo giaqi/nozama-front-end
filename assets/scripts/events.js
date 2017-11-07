@@ -86,6 +86,13 @@ const showItem = function (event) {
     .catch(itemUI.onGetFailure)
 }
 
+const qtyChange = function (event) {
+  const quantity = $(event.target).val()
+  const price = $('span[data-price]').attr('data-price')
+  const totalPrice = quantity * price
+  $('span[data-total-price]').text('$' + totalPrice.toFixed(2))
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -98,6 +105,7 @@ const addHandlers = function () {
   $('#alertModal').on('hidden.bs.modal', clearAlertModal)
   $('#alertModal').on('shown.bs.modal', fadeModal)
   $('#content').on('click', '.small-product', showItem)
+  $('#item-view-modal').on('change keyup', 'input[data-itemqty]', qtyChange)
 }
 
 module.exports = {
