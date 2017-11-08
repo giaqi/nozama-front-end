@@ -1,6 +1,7 @@
 'use strict'
 const store = require('../store.js')
 const ui = require('../ui')
+const handlebars = require('../handlebars.js')
 
 // Sign Up promises
 const signUpSuccess = function (response, status, xhr) {
@@ -19,8 +20,12 @@ const signUpFailure = function (response, status, xhr) {
 const signInSuccess = function (response, status, xhr) {
   $('#login-modal').modal('hide')
   store.user = response.user
+  updateCartDisplay()
   toggleUserDisplay(true)
   clearModals()
+  if (store.item) {
+    $('#content :button[data-prodID]')[0].click()
+  }
 }
 const signInFailure = function (response, status, xhr) {
   $('#signInComment').html('<div class="alert alert-danger" role="alert"><p>Please check login credentials and try again.</p></div>')
@@ -75,6 +80,40 @@ const toggleUserDisplay = function (check) {
   }
 }
 
+const onGetCartSuccess = function (response, status, xhr) {
+  store.user.cart = response.user.cart
+  store.user.cartItemPrice = response.user.cartItemPrice
+  store.user.cartItemTotal = response.user.cartItemTotal
+  // $('#item-view-modal').modal('hide')
+  updateCartDisplay()
+  handlebars.showCartView()
+  $('#item-view-modal').modal('show')
+}
+
+const onGetCartFailure = function (response, status, xhr) {
+  // TODO: Add failure logic
+  // console.log(response)
+  // console.log(status)
+  // console.log(xhr)
+}
+
+const onAddToCartSuccess = function (response, status, xhr) {
+  store.user.cart = response.cart
+}
+
+const onAddToCartFailure = function (response, status, xhr) {
+  // TODO: Add failure logic
+  // console.log('in onAddToCartFailure')
+  // console.log(response)
+  // console.log(status)
+  // console.log(xhr)
+}
+
+const updateCartDisplay = function () {
+  $('#nav-qty').text(store.user.cartItemTotal || 0)
+  $('#nav-price').text(store.user.cartItemPrice || (0).toFixed(2))
+}
+
 module.exports = {
   signUpSuccess,
   signInSuccess,
@@ -83,5 +122,9 @@ module.exports = {
   changePasswordSuccess,
   changePasswordFailure,
   signOutSuccess,
-  signOutFailure
+  signOutFailure,
+  onGetCartSuccess,
+  onGetCartFailure,
+  onAddToCartSuccess,
+  onAddToCartFailure
 }

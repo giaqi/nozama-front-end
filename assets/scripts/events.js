@@ -6,6 +6,7 @@ const itemApi = require('./items/api')
 const itemUI = require('./items/ui')
 const handlebars = require('./handlebars')
 const ui = require('./ui')
+const store = require('./store')
 
 const signOutUser = function (event) {
   event.preventDefault()
@@ -93,6 +94,55 @@ const qtyChange = function (event) {
   $('span[data-total-price]').text('$' + totalPrice.toFixed(2))
 }
 
+const getUserCart = function () {
+  authApi.getCart()
+    .then(authUI.onGetCartSuccess)
+    .catch(authUI.onGetCartFailure)
+}
+
+const addToCart = function (event) {
+  if (store.item && store.user) {
+    console.log('Item after login', store.item)
+    authApi.addToCart(store.item)
+      .then(authUI.onAddToCartSuccess)
+      .catch(authUI.onAddToCartFailure)
+  } else {
+    const prodID = $(event.target).closest('button').attr('data-prodID')
+    const input = $(event.target).closest('button').siblings('input')
+    const quantity = $(input).val() || 1
+    if (store.user) {
+      itemApi.getItem(prodID)
+        .then(data => promiseAddCart(data.product, quantity))
+        .then(authApi.addToCart)
+        .then(authApi.getCart)
+        .then(authUI.onGetCartSuccess)
+        .catch(itemUI.onGetFailure)
+    } else {
+      $('#alert-modal-content').addClass('alert-danger')
+      $('#alert-modal-content').html('<p>You must sign in to add to your cart.</p>')
+      $('#alertModal').modal('show')
+      $('#item-view-modal').modal('hide')
+      $('#login-modal').modal('show')
+      itemApi.getItem(prodID)
+        .then(data => promiseAddCart(data.product, quantity))
+        .then(item => {
+          store.item = item
+        })
+    }
+  }
+}
+
+const emptyCart = function () {
+  authApi.clearCart()
+    .then(authApi.getCart)
+    .then(authUI.onGetCartSuccess)
+    .catch(authUI.onGetCartFailure)
+}
+
+const promiseAddCart = function (product, qty) {
+  return {product, qty}
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -106,6 +156,10 @@ const addHandlers = function () {
   $('#alertModal').on('shown.bs.modal', fadeModal)
   $('#content').on('click', '.small-product', showItem)
   $('#item-view-modal').on('change keyup', 'input[data-itemqty]', qtyChange)
+  $('#nav-cart').on('click', getUserCart)
+  $('#item-view-modal').on('click', '#empty-cart', emptyCart)
+  $('#item-view-modal').on('click', 'button[data-prodID]', addToCart)
+  $('#content').on('click', 'button[data-prodID]', addToCart)
 }
 
 module.exports = {

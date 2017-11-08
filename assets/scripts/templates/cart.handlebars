@@ -1,0 +1,41 @@
+<div {{#if cart}}{{else}}class="modal-expand"{{/if}}>
+  {{#if cart}}
+  <div class="product-title modal-header">
+    <h2>Your Shopping Cart</h2>
+  </div>
+  <table class="table table-responsive table-hover">
+    <thead>
+      <th>Item</th>
+      <th>Quantity</th>
+      <th>Total cost</th>
+      <th></th>
+      <th></th>
+    </thead>
+    <tbody>
+    {{#each cart as |item|}}
+      <tr>
+        <td>{{item.name}}</td>
+        <td><input type="number" value="{{item.quantity}}" min="1" step="1" max="999"></td>
+        <td>{{item.price}}</td>
+        <td>
+          <button class="btn btn-sm btn-success">Update Cart</button>
+        </td>
+        <td>
+          <button class="btn btn-sm btn-danger">&times;</button>
+        </td>
+      </tr>
+    {{/each}}
+  </tbody>
+  </table>
+  <div class="modal-footer">
+    <div class="pull-left"><button id="empty-cart" class="btn btn-danger">Empty Cart  <span class="glyphicon glyphicon-trash"></span></div>
+    <div class="pull-right">
+      <h4>Items in cart: {{total}} Total price: ${{price}}
+        <button class="btn btn-success">Checkout</button>
+      </h4>
+    </div>
+  </div>
+  {{else}}
+    <h3> You have no items in your cart.</h3>
+  {{/if}}
+</div>
