@@ -18,10 +18,10 @@
         <td><input type="number" value="{{item.quantity}}" min="1" step="1" max="999"></td>
         <td>{{item.price}}</td>
         <td>
-          <button class="btn btn-sm btn-success">Update Cart</button>
+          <button class="btn btn-sm btn-success" data-update="{{item.id}}">Update Cart</button>
         </td>
         <td>
-          <button class="btn btn-sm btn-danger">&times;</button>
+          <button class="btn btn-sm btn-danger" data-delete="{{item.id}}">&times;</button>
         </td>
       </tr>
     {{/each}}

@@ -139,6 +139,15 @@ const emptyCart = function () {
     .catch(authUI.onGetCartFailure)
 }
 
+const removeFromCart = function (event) {
+  const itemId = $(event.target).attr('data-delete')
+
+  authApi.removeCartItem(itemId)
+    .then(authApi.getCart)
+    .then(authUI.onGetCartSuccess)
+    .catch(authUI.onGetCartFailure)
+}
+
 const promiseAddCart = function (product, qty) {
   return {product, qty}
 }
@@ -160,6 +169,7 @@ const addHandlers = function () {
   $('#item-view-modal').on('click', '#empty-cart', emptyCart)
   $('#item-view-modal').on('click', 'button[data-prodID]', addToCart)
   $('#content').on('click', 'button[data-prodID]', addToCart)
+  $('#item-view-modal').on('click', 'button[data-delete]', removeFromCart)
 }
 
 module.exports = {

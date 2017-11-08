@@ -70,6 +70,23 @@ const clearCart = function () {
   })
 }
 
+const removeCartItem = function (itemId) {
+  itemId = {
+    product: {
+      id: itemId
+    }
+  }
+
+  return $.ajax({
+    url: config.apiOrigin + '/remove-cart-item/' + store.user.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data: itemId
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
@@ -77,5 +94,6 @@ module.exports = {
   signOut,
   getCart,
   addToCart,
-  clearCart
+  clearCart,
+  removeCartItem
 }
