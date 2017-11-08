@@ -5,7 +5,7 @@
   <div class="modal-body">
     <div class="container-fluid">
       <div class="row row-vextor">
-        <div class="col-xs-8 no-float">
+        <div class="col-xs-7 no-float">
           <table class="table table-responsive table-hover">
             <thead>
               <th>Item</th>
@@ -23,13 +23,13 @@
             </tbody>
           </table>
         </div>
-        <div class="col-xs-4 no-float vertical-rule-left">
+        <div class="col-xs-5 no-float vertical-rule-left">
           <form id="checkout">
             <div class="input-group">
               <span class="input-group-addon">Credit Card</span>
-              <input type="text" name="" class="form-control" placeholder="Card Number" required>
-              <input type="text" name="" class="form-control" placeholder="MM/YY" required>
-              <input type="text" name="" class="form-control" placeholder="CCV" required>
+              <input type="text" name="purchase[card]" class="form-control" placeholder="Card Number" required>
+              <input type="text" name="purchase[exp]" class="form-control" placeholder="MM/YY" required>
+              <input type="text" name="purchase[cvc]" class="form-control" placeholder="CVC" required>
             </div>
             <input type="Submit" value="Complete Purchase" class="btn btn-success">
             <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>

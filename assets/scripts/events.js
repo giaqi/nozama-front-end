@@ -12,6 +12,7 @@ const signOutUser = function (event) {
   event.preventDefault()
   authApi.signOut()
     .then(authUI.signOutSuccess)
+    .then(loadItemIndex)
     .catch(authUI.signOutFailure)
 }
 
@@ -197,6 +198,77 @@ const checkout = function (event) {
   console.log('Checkout Clicked')
   console.log('Data is')
   console.log(data)
+  if (data.purchase.card.length === 16 && data.purchase.cvc.length === 3 && data.purchase.cvc.length === 3) {
+    console.log('Good Data')
+  } else {
+    console.log('Bad Data')
+    // TODO: Add validation to fields
+  }
+}
+
+const keyIgnores = [93, 91, 17, 18, 20, 16, 9, 13, 39, 38, 37, 40]
+
+const cardExpHelper = function (event) {
+  const keyCheck = keyIgnores.some(i => i === event.which)
+  const val = $(event.target).val()
+  if (event.which === 32) {
+    $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    return false
+  }
+  if (event.which !== 8 && val.length === 2) {
+    if (+val[1] > 2) {
+      $(event.target).val(val.substring(0, val.length - 1))
+    } else {
+      $(event.target).val(val + '/')
+    }
+  }
+  if (event.which !== 8 && +val > 1 && val.length === 1) {
+    $(event.target).val('0' + val + '/')
+  }
+  if (event.which !== 8 && isNaN(String.fromCharCode(event.which))) {
+    if (!keyCheck) {
+      $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    }
+  }
+  if (val.length > 5) {
+    $(event.target).val(val.substring(0, val.length - 1))
+  }
+  if (val.substr(-2) < new Date().getFullYear().toString().substr(-2)) {
+    // TODO: error to screen
+    $(event.target).val(val.substring(0, val.length - 1))
+  }
+}
+
+const cardHelper = function (event) {
+  const keyCheck = keyIgnores.some(i => i === event.which)
+  const val = $(event.target).val()
+  if (event.which === 32) {
+    $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+  }
+  if (event.which !== 8 && isNaN(String.fromCharCode(event.which))) {
+    if (!keyCheck) {
+      $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    }
+  }
+  if (val.length > 16) {
+    $(event.target).val(val.substring(0, val.length - 1))
+  }
+}
+
+const cardCVCHelper = function (event) {
+  const keyCheck = keyIgnores.some(i => i === event.which)
+  const val = $(event.target).val()
+  if (event.which === 32) {
+    $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+  }
+  if (event.which !== 8 && isNaN(String.fromCharCode(event.which))) {
+    if (!keyCheck) {
+      $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    }
+  }
+  if (val.length > 3) {
+    $(event.target).val(val.substring(0, val.length - 1))
+  }
 }
 
 const addHandlers = function () {
@@ -220,6 +292,9 @@ const addHandlers = function () {
   $('#item-view-modal').on('click', 'button[data-update]', updateQuantity)
   $('#item-view-modal').on('submit', '#checkout', checkout)
   $('#item-view-modal').on('click', '.checkout-btn', handlebars.checkoutView)
+  $('#item-view-modal').on('keyup', 'input[name="purchase[exp]"]', cardExpHelper)
+  $('#item-view-modal').on('keyup', 'input[name="purchase[card]"]', cardHelper)
+  $('#item-view-modal').on('keyup', 'input[name="purchase[cvc]"]', cardCVCHelper)
 }
 
 module.exports = {
