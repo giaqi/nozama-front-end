@@ -1,0 +1,43 @@
+<div>
+  <div class="product-title modal-header">
+    <h2>Checkout</h2>
+  </div>
+  <div class="modal-body">
+    <div class="container-fluid">
+      <div class="row row-vextor">
+        <div class="col-xs-8 no-float">
+          <table class="table table-responsive table-hover">
+            <thead>
+              <th>Item</th>
+              <th>Quantity</th>
+              <th>Total cost</th>
+            </thead>
+            <tbody>
+              {{#each cart as |item|}}
+                <tr>
+                  <td>{{item.name}}</td>
+                  <td>{{item.quantity}}</td>
+                  <td>{{item.price}}</td>
+                </tr>
+              {{/each}}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-xs-4 no-float vertical-rule-left">
+          <form id="checkout">
+            <div class="input-group">
+              <span class="input-group-addon">Credit Card</span>
+              <input type="text" class="form-control" placeholder="Card Number" required>
+              <input type="text" class="form-control" placeholder="MM/YY" required>
+              <input type="text" class="form-control" placeholder="CCV" required>
+            </div>
+            <input type="Submit" value="Complete Purchase" class="btn btn-success">
+            <button type="button" class="btn btn-default pull-right" data-dismiss="modal">Cancel</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footer">
+  </div>
+</div>

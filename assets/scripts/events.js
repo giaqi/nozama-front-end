@@ -6,6 +6,7 @@ const itemApi = require('./items/api')
 const itemUI = require('./items/ui')
 const handlebars = require('./handlebars')
 const ui = require('./ui')
+const store = require('./store')
 
 const signOutUser = function (event) {
   event.preventDefault()
@@ -93,6 +94,103 @@ const qtyChange = function (event) {
   $('span[data-total-price]').text('$' + totalPrice.toFixed(2))
 }
 
+const getUserCart = function () {
+  authApi.getCart()
+    .then(authUI.onGetCartSuccess)
+    .catch(authUI.onGetCartFailure)
+}
+
+const addToCart = function (event) {
+  if (store.item && store.user) {
+    const inCart = store.user.cart.some(i => i[0].id === store.item.product.id)
+    if (inCart) {
+      authApi.removeCartItem(store.item.product.id)
+        .then(data => itemApi.getItem(store.item.product.id))
+        .then(data => promiseAddCart(data.product, store.item.qty))
+        .then(authApi.addToCart)
+        .then(authApi.getCart)
+        .then(authUI.onGetCartSuccess)
+        .then(() => { store.item = null })
+        .catch(itemUI.onGetFailure)
+    } else {
+      itemApi.getItem(store.item.product.id)
+        .then(data => promiseAddCart(data.product, store.item.qty))
+        .then(authApi.addToCart)
+        .then(authApi.getCart)
+        .then(authUI.onGetCartSuccess)
+        .then(() => { store.item = null })
+        .catch(itemUI.onGetFailure)
+    }
+  } else {
+    const prodID = $(event.target).closest('button').attr('data-prodID')
+    const input = $(event.target).closest('button').siblings('input')
+    const quantity = $(input).val() || 1
+    if (store.user) {
+      const inCart = store.item ? store.user.cart.some(i => i[0].id === store.item.product.id) : false
+      if (inCart) {
+        authApi.removeCartItem(prodID)
+          .then(data => itemApi.getItem(prodID))
+          .then(data => promiseAddCart(data.product, quantity))
+          .then(authApi.addToCart)
+          .then(authApi.getCart)
+          .then(authUI.onGetCartSuccess)
+          .catch(itemUI.onGetFailure)
+      } else {
+        itemApi.getItem(prodID)
+          .then(data => promiseAddCart(data.product, quantity))
+          .then(authApi.addToCart)
+          .then(authApi.getCart)
+          .then(authUI.onGetCartSuccess)
+          .catch(itemUI.onGetFailure)
+      }
+    } else {
+      $('#alert-modal-content').addClass('alert-danger')
+      $('#alert-modal-content').html('<p>You must sign in to add to your cart.</p>')
+      $('#alertModal').modal('show')
+      $('#item-view-modal').modal('hide')
+      $('#login-modal').modal('show')
+      itemApi.getItem(prodID)
+        .then(data => promiseAddCart(data.product, quantity))
+        .then(item => {
+          store.item = item
+        })
+    }
+  }
+}
+
+const emptyCart = function () {
+  authApi.clearCart()
+    .then(authApi.getCart)
+    .then(authUI.onGetCartSuccess)
+    .catch(authUI.onGetCartFailure)
+}
+
+const removeFromCart = function (event) {
+  const itemId = $(event.target).attr('data-delete')
+
+  authApi.removeCartItem(itemId)
+    .then(authApi.getCart)
+    .then(authUI.onGetCartSuccess)
+    .catch(authUI.onGetCartFailure)
+}
+
+const updateQuantity = function (event) {
+  const itemId = $(event.target).attr('data-update')
+  const quantity = $('input[data-quantity="' + itemId + '"]').val()
+
+  authApi.removeCartItem(itemId)
+    .then(data => itemApi.getItem(itemId))
+    .then(data => promiseAddCart(data.product, quantity))
+    .then(authApi.addToCart)
+    .then(authApi.getCart)
+    .then(authUI.onGetCartSuccess)
+    .catch(itemUI.onGetFailure)
+}
+
+const promiseAddCart = function (product, qty) {
+  return {product, qty}
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -106,6 +204,13 @@ const addHandlers = function () {
   $('#alertModal').on('shown.bs.modal', fadeModal)
   $('#content').on('click', '.small-product', showItem)
   $('#item-view-modal').on('change keyup', 'input[data-itemqty]', qtyChange)
+  $('#nav-cart').on('click', getUserCart)
+  $('#item-view-modal').on('click', '#empty-cart', emptyCart)
+  $('#item-view-modal').on('click', 'button[data-prodID]', addToCart)
+  $('#content').on('click', 'button[data-prodID]', addToCart)
+  $('#item-view-modal').on('click', 'button[data-delete]', removeFromCart)
+  $('#item-view-modal').on('click', 'button[data-update]', updateQuantity)
+  $('#item-view-modal').on('click', '.checkout-btn', handlebars.checkoutView)
 }
 
 module.exports = {
