@@ -102,21 +102,47 @@ const getUserCart = function () {
 
 const addToCart = function (event) {
   if (store.item && store.user) {
-    console.log('Item after login', store.item)
-    authApi.addToCart(store.item)
-      .then(authUI.onAddToCartSuccess)
-      .catch(authUI.onAddToCartFailure)
+    const inCart = store.user.cart.some(i => i[0].id === store.item.product.id)
+    if (inCart) {
+      authApi.removeCartItem(store.item.product.id)
+        .then(data => itemApi.getItem(store.item.product.id))
+        .then(data => promiseAddCart(data.product, store.item.qty))
+        .then(authApi.addToCart)
+        .then(authApi.getCart)
+        .then(authUI.onGetCartSuccess)
+        .then(() => { store.item = null })
+        .catch(itemUI.onGetFailure)
+    } else {
+      itemApi.getItem(store.item.product.id)
+        .then(data => promiseAddCart(data.product, store.item.qty))
+        .then(authApi.addToCart)
+        .then(authApi.getCart)
+        .then(authUI.onGetCartSuccess)
+        .then(() => { store.item = null })
+        .catch(itemUI.onGetFailure)
+    }
   } else {
     const prodID = $(event.target).closest('button').attr('data-prodID')
     const input = $(event.target).closest('button').siblings('input')
     const quantity = $(input).val() || 1
     if (store.user) {
-      itemApi.getItem(prodID)
-        .then(data => promiseAddCart(data.product, quantity))
-        .then(authApi.addToCart)
-        .then(authApi.getCart)
-        .then(authUI.onGetCartSuccess)
-        .catch(itemUI.onGetFailure)
+      const inCart = store.item ? store.user.cart.some(i => i[0].id === store.item.product.id) : false
+      if (inCart) {
+        authApi.removeCartItem(prodID)
+          .then(data => itemApi.getItem(prodID))
+          .then(data => promiseAddCart(data.product, quantity))
+          .then(authApi.addToCart)
+          .then(authApi.getCart)
+          .then(authUI.onGetCartSuccess)
+          .catch(itemUI.onGetFailure)
+      } else {
+        itemApi.getItem(prodID)
+          .then(data => promiseAddCart(data.product, quantity))
+          .then(authApi.addToCart)
+          .then(authApi.getCart)
+          .then(authUI.onGetCartSuccess)
+          .catch(itemUI.onGetFailure)
+      }
     } else {
       $('#alert-modal-content').addClass('alert-danger')
       $('#alert-modal-content').html('<p>You must sign in to add to your cart.</p>')
