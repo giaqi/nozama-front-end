@@ -7,6 +7,7 @@ const showItemTemplate = require('./templates/item.handlebars')
 const itemFailureTemplate = require('./templates/item_failure.handlebars')
 const showCartTemplate = require('./templates/cart.handlebars')
 const checkoutTemplate = require('./templates/checkout.handlebars')
+const adminDashboardTemplate = require('./templates/admin-dashboard.handlebars')
 
 const accountManagement = function (data) {
   data.forEach(purchase => {
@@ -16,6 +17,9 @@ const accountManagement = function (data) {
 
   const showAccountManagementHtml = showAccountManagementTemplate({purchases: data})
   showContent(showAccountManagementHtml)
+}
+const adminDashboard = function () {
+  showContent(adminDashboardTemplate())
 }
 
 const showItemIndex = function (data) {
@@ -70,5 +74,6 @@ module.exports = {
   showItemIndex,
   itemFailure,
   showCartView,
-  checkoutView
+  checkoutView,
+  adminDashboard
 }

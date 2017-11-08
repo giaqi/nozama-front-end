@@ -19,8 +19,19 @@ const clearUpdatePassword = function () {
   $('#change-password-form :input').val('')
 }
 
+const productIdToggle = function () {
+  const hidden = $('#product-id-area').hasClass('hidden')
+
+  if (hidden) {
+    $('#product-id-area').removeClass('hidden')
+  } else {
+    $('#product-id-area').addClass('hidden')
+  }
+}
+
 module.exports = {
   passwordChangeToggle,
   hidePasswordChange,
-  clearUpdatePassword
+  clearUpdatePassword,
+  productIdToggle
 }

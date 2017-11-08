@@ -20,11 +20,17 @@ const signUpFailure = function (response, status, xhr) {
 const signInSuccess = function (response, status, xhr) {
   $('#login-modal').modal('hide')
   store.user = response.user
-  updateCartDisplay()
   toggleUserDisplay(true)
-  clearModals()
-  if (store.item) {
-    $('#content :button[data-prodID]')[0].click()
+  if (store.user.admin) {
+    $('#content').empty()
+    $('div[data-newuser]').addClass('hidden')
+    handlebars.adminDashboard()
+  } else {
+    updateCartDisplay()
+    clearModals()
+    if (store.item) {
+      $('#content :button[data-prodID]')[0].click()
+    }
   }
 }
 

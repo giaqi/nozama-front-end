@@ -334,6 +334,7 @@ const addHandlers = function () {
   $('#item-view-modal').on('keyup', 'input[name="purchase[cvc]"]', cardCVCHelper)
   $('#content').on('click', 'a[data-backToShopping]', loadItemIndex)
   $('#content').on('click', 'button[data-search]', searchItems)
+  $('#content').on('click', 'a[data-updateProduct]', ui.productIdToggle)
 }
 
 module.exports = {
