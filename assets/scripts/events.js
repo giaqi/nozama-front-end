@@ -210,6 +210,7 @@ const addHandlers = function () {
   $('#content').on('click', 'button[data-prodID]', addToCart)
   $('#item-view-modal').on('click', 'button[data-delete]', removeFromCart)
   $('#item-view-modal').on('click', 'button[data-update]', updateQuantity)
+  $('#item-view-modal').on('click', '.checkout-btn', handlebars.checkoutView)
 }
 
 module.exports = {

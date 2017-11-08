@@ -58,3 +58,22 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 .modal-expand {
   height: 78vh;
 }
+
+.empty-modal {
+  height: 78vh;
+  text-align: center;
+}
+
+.row-vextor {
+  height: 100%;
+  display: table-row;
+}
+
+.row .no-float {
+  display: table-cell;
+  float: none;
+}
+
+.vertical-rule-left {
+  border-left-style: solid;
+}

@@ -31,11 +31,14 @@
     <div class="pull-left"><button id="empty-cart" class="btn btn-danger">Empty Cart  <span class="glyphicon glyphicon-trash"></span></div>
     <div class="pull-right">
       <h4>Items in cart: {{total}} Total price: ${{price}}
-        <button class="btn btn-success">Checkout</button>
+        <button class="btn btn-success checkout-btn">Checkout</button>
       </h4>
     </div>
   </div>
   {{else}}
-    <h3> You have no items in your cart.</h3>
+    <div class="modal-content empty-modal">
+      <h3> Your cart is empty</h3>
+      <img src="https://i.imgur.com/DSTCCs6.jpg"/>
+    </div>
   {{/if}}
 </div>
