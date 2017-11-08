@@ -197,9 +197,7 @@ const promiseAddCart = function (product, qty) {
 const checkout = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
-  console.log('Checkout Clicked')
-  console.log('Data is')
-  console.log(data)
+
   if (data.purchase.card.length === 16 && data.purchase.exp.length === 5 && data.purchase.cvc.length === 3) {
     authApi.buyCart()
       .then(authUI.onPurchaseSuccess)

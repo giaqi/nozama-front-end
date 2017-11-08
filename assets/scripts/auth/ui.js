@@ -128,10 +128,9 @@ const onPurchaseSuccess = function (response, status, xhr) {
 }
 
 const onPurchaseFailure = function (response, status, xhr) {
-  console.log("da fuck'd you do man....")
-  console.log(response)
-  console.log(status)
-  console.log(xhr)
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html("<p>We could not process your purchase, but don't worry, your money is safe with us.</p>")
+  $('#alertModal').modal('show')
 }
 
 module.exports = {
