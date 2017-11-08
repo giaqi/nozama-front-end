@@ -335,6 +335,7 @@ const addHandlers = function () {
   $('#content').on('click', 'a[data-backToShopping]', loadItemIndex)
   $('#content').on('click', 'button[data-search]', searchItems)
   $('#content').on('click', 'a[data-updateProduct]', ui.productIdToggle)
+  $('#content').on('click', 'button[data-cancelProductId]', ui.productIdToggle)
 }
 
 module.exports = {

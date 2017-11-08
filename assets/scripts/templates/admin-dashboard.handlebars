@@ -8,25 +8,23 @@
   <section id="links">
     <div class="container-fluid">
       <!-- TODO: Make me pretty -->
-      <div class="row"><a href="#" data-updateProduct>Update Product</a></div>
       <div class="row"><a href="#" data-deleteProduct>Delete Product</a></div>
       <div class="row"><a href="#" data-addProduct>Add a Product</a></div>
-    </div>
-    <div class="hidden" id="product-id-area">
-      <form id="product-id-form">
-        <div class="row">
-          <div class="form-group col-xs-12 col-sm-4">
-            <label for="productLabel">Product ID</label>
-            <input name="products[id]" type="input" class="form-control" placeholder="Product ID" required>
+      <div class="row"><a href="#" data-updateProduct>Update Product</a></div>
+      <div class="hidden" id="product-id-area">
+        <form id="product-id-form">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="products[id]" type="input" class="form-control" placeholder="Product ID" required>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <button class="btn btn-secondary" data-cancelProductId>Cancel</button>
+              <button type="submit" class="btn btn-primary" data-submitProductId>Submit</button>
+            </div>
           </div>
-        </div>
-        <div class="row container-fluid">
-          <button class="btn btn-secondary" data-cancelChange>Cancel</button>
-          <button type="submit" class="btn btn-primary" data-changeSubmit>Submit</button>
-        </div>
-      </form>
+        </form>
+      </div>
     </div>
-
   </section>
 
   <section id="purchase-history"></section>
