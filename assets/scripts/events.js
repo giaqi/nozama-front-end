@@ -191,6 +191,14 @@ const promiseAddCart = function (product, qty) {
   return {product, qty}
 }
 
+const checkout = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+  console.log('Checkout Clicked')
+  console.log('Data is')
+  console.log(data)
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -210,6 +218,7 @@ const addHandlers = function () {
   $('#content').on('click', 'button[data-prodID]', addToCart)
   $('#item-view-modal').on('click', 'button[data-delete]', removeFromCart)
   $('#item-view-modal').on('click', 'button[data-update]', updateQuantity)
+  $('#item-view-modal').on('submit', '#checkout', checkout)
   $('#item-view-modal').on('click', '.checkout-btn', handlebars.checkoutView)
 }
 

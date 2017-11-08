@@ -16,6 +16,7 @@
   </div>
 </div>
 <br/>
+<div class="container-fluid">
   {{#each products as |product|}}
 
   <div class="col-xs-12 col-sm-4 well">
@@ -34,10 +35,8 @@
         <button data-prodID="{{product.id}}" class="btn btn-success button-place" type="button" name="button"> <span class="glyphicon glyphicon-shopping-cart">+</span></button>
       </div>
     </div>
-  </div>
-
-
   {{/each}}
+</div>
 {{else}}
   <h4> Failed to load the store, please try again later</h4>
 {{/if}}
