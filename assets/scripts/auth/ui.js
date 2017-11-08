@@ -27,6 +27,7 @@ const signInSuccess = function (response, status, xhr) {
     $('#content :button[data-prodID]')[0].click()
   }
 }
+
 const signInFailure = function (response, status, xhr) {
   $('#signInComment').html('<div class="alert alert-danger" role="alert"><p>Please check login credentials and try again.</p></div>')
   clearPasswordFields()
@@ -72,7 +73,9 @@ const clearPasswordFields = () => {
 const toggleUserDisplay = function (check) {
   if (check) {
     $('[data-user="no-user"]').addClass('hidden')
-    $('[data-user="user"]').removeClass('hidden')
+    if (!store.user.admin) {
+      $('[data-user="user"]').removeClass('hidden')
+    }
     $('#current-user').text(store.user.email).append('<span class="caret"></span>')
   } else {
     $('[data-user="no-user"]').removeClass('hidden')
