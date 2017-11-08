@@ -76,7 +76,7 @@ const toggleUserDisplay = function (check) {
     if (!store.user.admin) {
       $('[data-user="user"]').removeClass('hidden')
     }
-    $('#current-user').text(store.user.email).append('<span class="caret"></span>')
+    $('#current-user').text(store.user.email).append('<span class="caret"></span>').parent().removeClass('hidden')
   } else {
     $('[data-user="no-user"]').removeClass('hidden')
     $('[data-user="user"]').addClass('hidden')
