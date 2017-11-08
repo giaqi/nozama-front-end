@@ -148,6 +148,19 @@ const removeFromCart = function (event) {
     .catch(authUI.onGetCartFailure)
 }
 
+const updateQuantity = function (event) {
+  const itemId = $(event.target).attr('data-update')
+  const quantity = $('input[data-quantity="' + itemId + '"]').val()
+
+  authApi.removeCartItem(itemId)
+    .then(data => itemApi.getItem(itemId))
+    .then(data => promiseAddCart(data.product, quantity))
+    .then(authApi.addToCart)
+    .then(authApi.getCart)
+    .then(authUI.onGetCartSuccess)
+    .catch(itemUI.onGetFailure)
+}
+
 const promiseAddCart = function (product, qty) {
   return {product, qty}
 }
@@ -170,6 +183,7 @@ const addHandlers = function () {
   $('#item-view-modal').on('click', 'button[data-prodID]', addToCart)
   $('#content').on('click', 'button[data-prodID]', addToCart)
   $('#item-view-modal').on('click', 'button[data-delete]', removeFromCart)
+  $('#item-view-modal').on('click', 'button[data-update]', updateQuantity)
 }
 
 module.exports = {

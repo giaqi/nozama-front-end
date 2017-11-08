@@ -15,7 +15,7 @@
     {{#each cart as |item|}}
       <tr>
         <td>{{item.name}}</td>
-        <td><input type="number" value="{{item.quantity}}" min="1" step="1" max="999"></td>
+        <td><input type="number" value="{{item.quantity}}" min="1" step="1" max="999" data-quantity="{{item.id}}"></td>
         <td>{{item.price}}</td>
         <td>
           <button class="btn btn-sm btn-success" data-update="{{item.id}}">Update Cart</button>

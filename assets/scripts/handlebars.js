@@ -24,7 +24,7 @@ const showItemSmall = function (data) {
 const showCartView = function () {
   const data = store.user.cart
   // data.forEach(i => { data[i]['total'] = data[i][1] * data[i][0]['price'] })
-  data.forEach(i => { i[0].price = i[0].price * i[1] })
+  data.forEach(i => { i[0].price = (i[0].price * i[1]).toFixed(2) })
   data.forEach(i => { i[0].quantity = i[1] })
   // data.forEach(i => console.log(i[0]))
   const cart = data.map(i => i[0])
