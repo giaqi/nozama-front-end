@@ -12,6 +12,7 @@ const signOutUser = function (event) {
   event.preventDefault()
   authApi.signOut()
     .then(authUI.signOutSuccess)
+    .then(loadItemIndex)
     .catch(authUI.signOutFailure)
 }
 
@@ -102,11 +103,12 @@ const getUserCart = function () {
 
 const addToCart = function (event) {
   if (store.item && store.user) {
-    const inCart = store.user.cart.some(i => i[0].id === store.item.product.id)
+    const inCart = store.user.cart.find(i => i[0].id === store.item.product.id)
     if (inCart) {
+      const addQuantity = +store.item.qty + +inCart[1]
       authApi.removeCartItem(store.item.product.id)
         .then(data => itemApi.getItem(store.item.product.id))
-        .then(data => promiseAddCart(data.product, store.item.qty))
+        .then(data => promiseAddCart(data.product, addQuantity))
         .then(authApi.addToCart)
         .then(authApi.getCart)
         .then(authUI.onGetCartSuccess)
@@ -126,11 +128,12 @@ const addToCart = function (event) {
     const input = $(event.target).closest('button').siblings('input')
     const quantity = $(input).val() || 1
     if (store.user) {
-      const inCart = store.item ? store.user.cart.some(i => i[0].id === store.item.product.id) : false
+      const inCart = store.item ? store.user.cart.some(i => i[0].id === store.item.product.id) : store.user.cart.some(i => i[0].id === prodID)
       if (inCart) {
+        const addQuantity = +store.user.cart.find(i => i[0].id === prodID)[1] + +quantity
         authApi.removeCartItem(prodID)
           .then(data => itemApi.getItem(prodID))
-          .then(data => promiseAddCart(data.product, quantity))
+          .then(data => promiseAddCart(data.product, addQuantity))
           .then(authApi.addToCart)
           .then(authApi.getCart)
           .then(authUI.onGetCartSuccess)
@@ -191,6 +194,84 @@ const promiseAddCart = function (product, qty) {
   return {product, qty}
 }
 
+const checkout = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+
+  if (data.purchase.card.length === 16 && data.purchase.exp.length === 5 && data.purchase.cvc.length === 3) {
+    authApi.buyCart()
+      .then(authUI.onPurchaseSuccess)
+      .catch(authUI.onPurchaseFailure)
+  } else {
+    // TODO: Add validation to fields
+  }
+}
+
+const keyIgnores = [93, 91, 17, 18, 20, 16, 9, 13, 39, 38, 37, 40]
+
+const cardExpHelper = function (event) {
+  const keyCheck = keyIgnores.some(i => i === event.which)
+  const val = $(event.target).val()
+  if (event.which === 32) {
+    $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    return false
+  }
+  if (event.which !== 8 && val.length === 2) {
+    if (+val[1] > 2) {
+      $(event.target).val(val.substring(0, val.length - 1))
+    } else {
+      $(event.target).val(val + '/')
+    }
+  }
+  if (event.which !== 8 && +val > 1 && val.length === 1) {
+    $(event.target).val('0' + val + '/')
+  }
+  if (event.which !== 8 && isNaN(String.fromCharCode(event.which))) {
+    if (!keyCheck) {
+      $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    }
+  }
+  if (val.length > 5) {
+    $(event.target).val(val.substring(0, val.length - 1))
+  }
+  // if (val.substr(-2) < new Date().getFullYear().toString().substr(-2)) {
+  //   // TODO: error to screen
+  //   $(event.target).val(val.substring(0, val.length - 1))
+  // }
+}
+
+const cardHelper = function (event) {
+  const keyCheck = keyIgnores.some(i => i === event.which)
+  const val = $(event.target).val()
+  if (event.which === 32) {
+    $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+  }
+  if (event.which !== 8 && isNaN(String.fromCharCode(event.which))) {
+    if (!keyCheck) {
+      $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    }
+  }
+  if (val.length > 16) {
+    $(event.target).val(val.substring(0, val.length - 1))
+  }
+}
+
+const cardCVCHelper = function (event) {
+  const keyCheck = keyIgnores.some(i => i === event.which)
+  const val = $(event.target).val()
+  if (event.which === 32) {
+    $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+  }
+  if (event.which !== 8 && isNaN(String.fromCharCode(event.which))) {
+    if (!keyCheck) {
+      $(event.target).val(val.substring(0, val.length - 1))// stop character from entering input
+    }
+  }
+  if (val.length > 3) {
+    $(event.target).val(val.substring(0, val.length - 1))
+  }
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -210,7 +291,11 @@ const addHandlers = function () {
   $('#content').on('click', 'button[data-prodID]', addToCart)
   $('#item-view-modal').on('click', 'button[data-delete]', removeFromCart)
   $('#item-view-modal').on('click', 'button[data-update]', updateQuantity)
+  $('#item-view-modal').on('submit', '#checkout', checkout)
   $('#item-view-modal').on('click', '.checkout-btn', handlebars.checkoutView)
+  $('#item-view-modal').on('keyup', 'input[name="purchase[exp]"]', cardExpHelper)
+  $('#item-view-modal').on('keyup', 'input[name="purchase[card]"]', cardHelper)
+  $('#item-view-modal').on('keyup', 'input[name="purchase[cvc]"]', cardCVCHelper)
 }
 
 module.exports = {

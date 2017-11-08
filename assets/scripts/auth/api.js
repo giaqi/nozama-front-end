@@ -87,6 +87,16 @@ const removeCartItem = function (itemId) {
   })
 }
 
+const buyCart = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/stripe',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
@@ -95,5 +105,6 @@ module.exports = {
   getCart,
   addToCart,
   clearCart,
-  removeCartItem
+  removeCartItem,
+  buyCart
 }
