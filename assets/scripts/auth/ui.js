@@ -117,6 +117,23 @@ const updateCartDisplay = function () {
   $('#nav-price').text(store.user.cartItemPrice || (0).toFixed(2))
 }
 
+const onPurchaseSuccess = function (response, status, xhr) {
+  $('#item-view-modal').modal('hide')
+  $('#alert-modal-content').addClass('alert-success')
+  $('#alert-modal-content').html('<p>Purchase successful</p>')
+  $('#alertModal').modal('show')
+  store.user.cartItemPrice = null
+  store.user.cartItemTotal = null
+  updateCartDisplay()
+}
+
+const onPurchaseFailure = function (response, status, xhr) {
+  console.log("da fuck'd you do man....")
+  console.log(response)
+  console.log(status)
+  console.log(xhr)
+}
+
 module.exports = {
   signUpSuccess,
   signInSuccess,
@@ -129,5 +146,7 @@ module.exports = {
   onGetCartSuccess,
   onGetCartFailure,
   onAddToCartSuccess,
-  onAddToCartFailure
+  onAddToCartFailure,
+  onPurchaseSuccess,
+  onPurchaseFailure
 }

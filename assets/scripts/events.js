@@ -103,11 +103,12 @@ const getUserCart = function () {
 
 const addToCart = function (event) {
   if (store.item && store.user) {
-    const inCart = store.user.cart.some(i => i[0].id === store.item.product.id)
+    const inCart = store.user.cart.find(i => i[0].id === store.item.product.id)
     if (inCart) {
+      const addQuantity = +store.item.qty + +inCart[1]
       authApi.removeCartItem(store.item.product.id)
         .then(data => itemApi.getItem(store.item.product.id))
-        .then(data => promiseAddCart(data.product, store.item.qty))
+        .then(data => promiseAddCart(data.product, addQuantity))
         .then(authApi.addToCart)
         .then(authApi.getCart)
         .then(authUI.onGetCartSuccess)
@@ -127,11 +128,12 @@ const addToCart = function (event) {
     const input = $(event.target).closest('button').siblings('input')
     const quantity = $(input).val() || 1
     if (store.user) {
-      const inCart = store.item ? store.user.cart.some(i => i[0].id === store.item.product.id) : false
+      const inCart = store.item ? store.user.cart.some(i => i[0].id === store.item.product.id) : store.user.cart.some(i => i[0].id === prodID)
       if (inCart) {
+        const addQuantity = +store.user.cart.find(i => i[0].id === prodID)[1] + +quantity
         authApi.removeCartItem(prodID)
           .then(data => itemApi.getItem(prodID))
-          .then(data => promiseAddCart(data.product, quantity))
+          .then(data => promiseAddCart(data.product, addQuantity))
           .then(authApi.addToCart)
           .then(authApi.getCart)
           .then(authUI.onGetCartSuccess)
@@ -198,10 +200,11 @@ const checkout = function (event) {
   console.log('Checkout Clicked')
   console.log('Data is')
   console.log(data)
-  if (data.purchase.card.length === 16 && data.purchase.cvc.length === 3 && data.purchase.cvc.length === 3) {
-    console.log('Good Data')
+  if (data.purchase.card.length === 16 && data.purchase.exp.length === 5 && data.purchase.cvc.length === 3) {
+    authApi.buyCart()
+      .then(authUI.onPurchaseSuccess)
+      .catch(authUI.onPurchaseFailure)
   } else {
-    console.log('Bad Data')
     // TODO: Add validation to fields
   }
 }
@@ -233,10 +236,10 @@ const cardExpHelper = function (event) {
   if (val.length > 5) {
     $(event.target).val(val.substring(0, val.length - 1))
   }
-  if (val.substr(-2) < new Date().getFullYear().toString().substr(-2)) {
-    // TODO: error to screen
-    $(event.target).val(val.substring(0, val.length - 1))
-  }
+  // if (val.substr(-2) < new Date().getFullYear().toString().substr(-2)) {
+  //   // TODO: error to screen
+  //   $(event.target).val(val.substring(0, val.length - 1))
+  // }
 }
 
 const cardHelper = function (event) {
