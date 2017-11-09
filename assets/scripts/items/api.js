@@ -1,5 +1,6 @@
 'use strict'
 const config = require('../config')
+const store = require('../store.js')
 
 const indexItems = function () {
   return $.ajax({
@@ -22,8 +23,20 @@ const getByName = function (data) {
   })
 }
 
+const updateItem = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/products/' + store.user.currentProduct.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+  })
+}
+
 module.exports = {
   indexItems,
   getItem,
-  getByName
+  getByName,
+  updateItem
 }

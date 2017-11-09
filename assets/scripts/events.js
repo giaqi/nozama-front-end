@@ -314,8 +314,28 @@ const searchProductId = function (event) {
   const data = getFormFields(event.target)
   // data = {product{id: val}}
   itemApi.getItem(data.product.id)
-    .then(console.log)
-    .catch(console.error)
+    .then((data) => {
+      store.user.currentProduct = data.product
+      ui.productIdToggle()
+      ui.productUpdateToggle()
+      ui.populateProduct(data.product)
+    })
+    .catch(ui.productLoadFailure)
+
+    // 5a025f98ba17c0579f9a1679
+}
+
+const editProduct = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+
+  itemApi.updateItem(data)
+    .then(() => {
+      store.user.currentProduct = null
+      ui.productUpdateToggle()
+      ui.productUpdateSuccess()
+    })
+    .catch(ui.productUpdateFailure)
 }
 
 const addHandlers = function () {
@@ -347,6 +367,8 @@ const addHandlers = function () {
   $('#content').on('click', 'a[data-updateProduct]', ui.productIdToggle)
   $('#content').on('click', 'button[data-cancelProductId]', ui.productIdToggle)
   $('#content').on('submit', '#product-id-form', searchProductId)
+  $('#content').on('click', 'button[data-cancelEditProduct]', ui.productUpdateToggle)
+  $('#content').on('submit', '#edit-product-form', editProduct)
 }
 
 module.exports = {
