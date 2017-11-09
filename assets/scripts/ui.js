@@ -33,6 +33,17 @@ const productIdToggle = function (event) {
   }
 }
 
+const product2IdToggle = function (event) {
+  const hidden = $('#product-id-area2').hasClass('hidden')
+
+  if (hidden) {
+    $('#product-id-area2').removeClass('hidden')
+  } else {
+    $('input[name="product[id]"]').val('')
+    $('#product-id-area2').addClass('hidden')
+  }
+}
+
 const productUpdateToggle = function (event) {
   const hidden = $('#edit-product-area').hasClass('hidden')
 
@@ -74,6 +85,19 @@ const productUpdateFailure = function () {
   productUpdateToggle()
 }
 
+const deleteItemSuccess = function () {
+  $('#alert-modal-content').addClass('alert-success')
+  $('#alert-modal-content').html('<p>Product deleted!</p>')
+  $('#alertModal').modal('show')
+}
+
+const deleteItemFailure = function () {
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html('<p>Product delete failed!</p>')
+  $('#alertModal').modal('show')
+  product2IdToggle()
+}
+
 module.exports = {
   passwordChangeToggle,
   hidePasswordChange,
@@ -83,5 +107,8 @@ module.exports = {
   populateProduct,
   productLoadFailure,
   productUpdateSuccess,
-  productUpdateFailure
+  productUpdateFailure,
+  product2IdToggle,
+  deleteItemSuccess,
+  deleteItemFailure
 }

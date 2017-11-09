@@ -34,9 +34,20 @@ const updateItem = function (data) {
   })
 }
 
+const deleteItem = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/products/' + data,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   indexItems,
   getItem,
   getByName,
-  updateItem
+  updateItem,
+  deleteItem
 }

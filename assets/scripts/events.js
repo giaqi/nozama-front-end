@@ -321,8 +321,6 @@ const searchProductId = function (event) {
       ui.populateProduct(data.product)
     })
     .catch(ui.productLoadFailure)
-
-    // 5a025f98ba17c0579f9a1679
 }
 
 const editProduct = function (event) {
@@ -336,6 +334,21 @@ const editProduct = function (event) {
       ui.productUpdateSuccess()
     })
     .catch(ui.productUpdateFailure)
+}
+
+const deleteProduct = function (event) {
+  event.preventDefault()
+
+  const data = getFormFields(event.target)
+
+  itemApi.deleteItem(data.product.id)
+    .then(() => {
+      ui.product2IdToggle()
+      ui.deleteItemSuccess()
+    })
+    .catch(ui.deleteItemFailure)
+
+    // 5a026003a6e14e58755ef41b
 }
 
 const addHandlers = function () {
@@ -369,6 +382,9 @@ const addHandlers = function () {
   $('#content').on('submit', '#product-id-form', searchProductId)
   $('#content').on('click', 'button[data-cancelEditProduct]', ui.productUpdateToggle)
   $('#content').on('submit', '#edit-product-form', editProduct)
+  $('#content').on('click', 'button[data-cancelProduct2Id]', ui.product2IdToggle)
+  $('#content').on('click', 'a[data-deleteProduct]', ui.product2IdToggle)
+  $('#content').on('submit', '#product-id-form2', deleteProduct)
 }
 
 module.exports = {
