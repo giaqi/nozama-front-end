@@ -2,7 +2,9 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
-// TODO: Get this out of here
+$aqua: #6bbaa7;
+$error-red: #dc3545;
+
 .modal-backdrop {
   .in {
     filter: alpha(opacity=50);
@@ -89,8 +91,12 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 }
 
 div.accordion-row:hover {
-  background-color: #6bbaa7;
+  background-color: $aqua;
   border-radius: 8px;
   font-size: 120%;
   padding: 10px;
+}
+
+.is-invalid {
+  border-color: $error-red;
 }

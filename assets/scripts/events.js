@@ -198,18 +198,31 @@ const checkout = function (event) {
   event.preventDefault()
   const data = getFormFields(event.target)
 
-  if (data.purchase.card.length === 16 && data.purchase.exp.length === 5 && data.purchase.cvc.length === 3) {
+  const goodCard = data.purchase.card.length === 16
+  const goodExp = data.purchase.exp.length === 5
+  const goodCVC = data.purchase.cvc.length === 3
+
+  if (goodCard && goodExp && goodCVC) {
     authApi.buyCart()
       .then(authUI.onPurchaseSuccess)
       .catch(authUI.onPurchaseFailure)
   } else {
-    // TODO: Add validation to fields
+    if (!goodCard) {
+      $('input[name="purchase[card]"]').addClass('is-invalid').attr('data-toggle', 'tooltip').attr('data-placement', 'right').attr('title', 'This is not valid').tooltip('show')
+    }
+    if (!goodExp) {
+      $('input[name="purchase[exp]"]').addClass('is-invalid').attr('data-toggle', 'tooltip').attr('data-placement', 'right').attr('title', 'This is not valid').tooltip('show')
+    }
+    if (!goodCVC) {
+      $('input[name="purchase[cvc]"]').addClass('is-invalid').attr('data-toggle', 'tooltip').attr('data-placement', 'right').attr('title', 'This is not valid').tooltip('show')
+    }
   }
 }
 
 const keyIgnores = [93, 91, 17, 18, 20, 16, 9, 13, 39, 38, 37, 40]
 
 const cardExpHelper = function (event) {
+  $('input[name="purchase[exp]"]').removeClass('is-invalid').removeAttr('data-toggle').removeAttr('data-placement').removeAttr('title').removeAttr('data-original-title')
   const keyCheck = keyIgnores.some(i => i === event.which)
   const val = $(event.target).val()
   if (event.which === 32) {
@@ -234,13 +247,18 @@ const cardExpHelper = function (event) {
   if (val.length > 5) {
     $(event.target).val(val.substring(0, val.length - 1))
   }
-  // if (val.substr(-2) < new Date().getFullYear().toString().substr(-2)) {
-  //   // TODO: error to screen
-  //   $(event.target).val(val.substring(0, val.length - 1))
-  // }
+  if (val.length === 5) {
+    const date = new Date(`20${val.substr(-2)}`, val.substr(0, 1))
+    if (date < new Date()) {
+      $('input[name="purchase[exp]"]').addClass('is-invalid').attr('data-toggle', 'tooltip').attr('data-placement', 'right').attr('title', 'This card has expired').tooltip('show')
+    } else {
+      $('input[name="purchase[exp]"]').removeClass('is-invalid').removeAttr('data-toggle').removeAttr('data-placement').removeAttr('title').removeAttr('data-original-title')
+    }
+  }
 }
 
 const cardHelper = function (event) {
+  $('input[name="purchase[card]"]').removeClass('is-invalid').removeAttr('data-toggle').removeAttr('data-placement').removeAttr('title').removeAttr('data-original-title')
   const keyCheck = keyIgnores.some(i => i === event.which)
   const val = $(event.target).val()
   if (event.which === 32) {
@@ -257,6 +275,7 @@ const cardHelper = function (event) {
 }
 
 const cardCVCHelper = function (event) {
+  $('input[name="purchase[cvc]"]').removeClass('is-invalid').removeAttr('data-toggle').removeAttr('data-placement').removeAttr('title').tooltip('hide')
   const keyCheck = keyIgnores.some(i => i === event.which)
   const val = $(event.target).val()
   if (event.which === 32) {

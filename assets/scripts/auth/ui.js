@@ -87,17 +87,15 @@ const onGetCartSuccess = function (response, status, xhr) {
   store.user.cart = response.user.cart
   store.user.cartItemPrice = response.user.cartItemPrice
   store.user.cartItemTotal = response.user.cartItemTotal
-  // $('#item-view-modal').modal('hide')
   updateCartDisplay()
   handlebars.showCartView()
   $('#item-view-modal').modal('show')
 }
 
 const onGetCartFailure = function (response, status, xhr) {
-  // TODO: Add failure logic
-  // console.log(response)
-  // console.log(status)
-  // console.log(xhr)
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html('<p>Sorry, we could not find your cart.</p>')
+  $('#alertModal').modal('show')
 }
 
 const onAddToCartSuccess = function (response, status, xhr) {
@@ -105,11 +103,9 @@ const onAddToCartSuccess = function (response, status, xhr) {
 }
 
 const onAddToCartFailure = function (response, status, xhr) {
-  // TODO: Add failure logic
-  // console.log('in onAddToCartFailure')
-  // console.log(response)
-  // console.log(status)
-  // console.log(xhr)
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html('<p>Sorry, we could not add this to your cart.</p>')
+  $('#alertModal').modal('show')
 }
 
 const updateCartDisplay = function () {
@@ -139,10 +135,8 @@ const onGetPurchases = function (response, status, xhr) {
 }
 
 const onGetFailure = function (response, status, xhr) {
-  console.log('in onGetPurchase failure')
-  console.log(response)
-  console.log(status)
-  console.log(xhr)
+  console.log(response.purchases)
+  handlebars.accountManagement(response.purchases)
 }
 
 module.exports = {
