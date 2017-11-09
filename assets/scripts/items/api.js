@@ -16,7 +16,50 @@ const getItem = function (data) {
   })
 }
 
+const getByName = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/products?name=' + data,
+    method: 'GET'
+  })
+}
+
+const updateItem = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/products/' + store.user.currentProduct.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+  })
+}
+
+const deleteItem = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/products/' + data,
+    method: 'DELETE',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const addItem = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/products',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+  })
+}
+
 module.exports = {
   indexItems,
-  getItem
+  getItem,
+  getByName,
+  updateItem,
+  deleteItem,
+  addItem
 }

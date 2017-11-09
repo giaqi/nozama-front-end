@@ -1,6 +1,7 @@
 'use strict'
 const store = require('../store.js')
 const ui = require('../ui')
+const handlebars = require('../handlebars.js')
 
 // Sign Up promises
 const signUpSuccess = function (response, status, xhr) {
@@ -20,8 +21,19 @@ const signInSuccess = function (response, status, xhr) {
   $('#login-modal').modal('hide')
   store.user = response.user
   toggleUserDisplay(true)
-  clearModals()
+  if (store.user.admin) {
+    $('#content').empty()
+    $('div[data-newuser]').addClass('hidden')
+    handlebars.adminDashboard()
+  } else {
+    updateCartDisplay()
+    clearModals()
+    if (store.item) {
+      $('#content :button[data-prodID]')[0].click()
+    }
+  }
 }
+
 const signInFailure = function (response, status, xhr) {
   $('#signInComment').html('<div class="alert alert-danger" role="alert"><p>Please check login credentials and try again.</p></div>')
   clearPasswordFields()
@@ -67,12 +79,68 @@ const clearPasswordFields = () => {
 const toggleUserDisplay = function (check) {
   if (check) {
     $('[data-user="no-user"]').addClass('hidden')
-    $('[data-user="user"]').removeClass('hidden')
-    $('#current-user').text(store.user.email).append('<span class="caret"></span>')
+    if (!store.user.admin) {
+      $('[data-user="user"]').removeClass('hidden')
+    }
+    $('#current-user').text(store.user.email).append('<span class="caret"></span>').parent().removeClass('hidden')
   } else {
     $('[data-user="no-user"]').removeClass('hidden')
     $('[data-user="user"]').addClass('hidden')
   }
+}
+
+const onGetCartSuccess = function (response, status, xhr) {
+  store.user.cart = response.user.cart
+  store.user.cartItemPrice = response.user.cartItemPrice
+  store.user.cartItemTotal = response.user.cartItemTotal
+  updateCartDisplay()
+  handlebars.showCartView()
+  $('#item-view-modal').modal('show')
+}
+
+const onGetCartFailure = function (response, status, xhr) {
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html('<p>Sorry, we could not find your cart.</p>')
+  $('#alertModal').modal('show')
+}
+
+const onAddToCartSuccess = function (response, status, xhr) {
+  store.user.cart = response.cart
+}
+
+const onAddToCartFailure = function (response, status, xhr) {
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html('<p>Sorry, we could not add this to your cart.</p>')
+  $('#alertModal').modal('show')
+}
+
+const updateCartDisplay = function () {
+  $('#nav-qty').text(store.user.cartItemTotal || 0)
+  $('#nav-price').text(store.user.cartItemPrice || (0).toFixed(2))
+}
+
+const onPurchaseSuccess = function (response, status, xhr) {
+  $('#item-view-modal').modal('hide')
+  $('#alert-modal-content').addClass('alert-success')
+  $('#alert-modal-content').html('<p>Purchase successful</p>')
+  $('#alertModal').modal('show')
+  store.user.cartItemPrice = null
+  store.user.cartItemTotal = null
+  updateCartDisplay()
+}
+
+const onPurchaseFailure = function (response, status, xhr) {
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html("<p>We could not process your purchase, but don't worry, your money is safe with us.</p>")
+  $('#alertModal').modal('show')
+}
+
+const onGetPurchases = function (response, status, xhr) {
+  handlebars.accountManagement(response.purchases)
+}
+
+const onGetFailure = function (response, status, xhr) {
+  handlebars.accountManagement(response.purchases)
 }
 
 module.exports = {
@@ -83,5 +151,13 @@ module.exports = {
   changePasswordSuccess,
   changePasswordFailure,
   signOutSuccess,
-  signOutFailure
+  signOutFailure,
+  onGetCartSuccess,
+  onGetCartFailure,
+  onAddToCartSuccess,
+  onAddToCartFailure,
+  onPurchaseSuccess,
+  onPurchaseFailure,
+  onGetFailure,
+  onGetPurchases
 }

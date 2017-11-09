@@ -39,9 +39,83 @@ const changePassword = function (data) {
   })
 }
 
+const getCart = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/users/' + store.user.id,
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const addToCart = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/add-cart-item/' + store.user.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data
+  })
+}
+
+const clearCart = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/remove-cart-item/' + store.user.id + '?clear=true',
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const removeCartItem = function (itemId) {
+  itemId = {
+    product: {
+      id: itemId
+    }
+  }
+
+  return $.ajax({
+    url: config.apiOrigin + '/remove-cart-item/' + store.user.id,
+    method: 'PATCH',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    },
+    data: itemId
+  })
+}
+
+const buyCart = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/stripe',
+    method: 'POST',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
+const getPurchases = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/purchases',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
   changePassword,
-  signOut
+  signOut,
+  getCart,
+  addToCart,
+  clearCart,
+  removeCartItem,
+  buyCart,
+  getPurchases
 }

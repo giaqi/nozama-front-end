@@ -7,9 +7,14 @@
   </section>
   <section id="links">
     <div class="container-fluid">
-      <!-- TODO: Make me pretty -->
       <div class="row"><a href="#" data-backToShopping>Go back...</a></div>
-      <div class="row"><a href="#" data-changePassword>Change password</a></div>
+    </div>
+    <h3>Password Management</h3>
+    <div class="container">
+
+      <div class="container-fluid">
+        <div class="row"><a href="#" data-changePassword>Change password</a></div>
+      </div>
     </div>
     <div class="hidden" id="change-password-area">
       <form id="change-password-form">
@@ -20,7 +25,7 @@
           </div>
           <div class="form-group col-xs-12 col-sm-4">
             <label for="passwordLabel">New Password</label>
-            <input name="passwords[new]" type="password" class="form-control"  placeholder="New Password" required>
+            <input name="passwords[new]" type="password" class="form-control" placeholder="New Password" required>
           </div>
         </div>
         <div class="row container-fluid">
@@ -32,5 +37,56 @@
 
   </section>
 
-  <section id="purchase-history"></section>
+  <h3>Your Purchases</h3>
+  <div class="container-fluid">
+    {{#if purchases}}
+      <div id="accordion" role="tablist" aria-multiselectable="true">
+        {{#each purchases as |purchase|}}
+          <div class="card">
+            <div class="card-header" role="tab" id="headingTwo">
+              <h5 class="mb-0">
+          <a class="collapsed" data-toggle="collapse" data-parent="#accordion" href="#{{purchase.id}}" aria-expanded="false" aria-controls="{{purchase.id}}">
+            <div class="row accordion-row">
+              <div class="col-xs-6">
+                <p>Purchased on: {{purchase.createdAt}}</p>
+              </div>
+              <div class="col-xs-3">
+                <p class="pull-right">Total items:  {{purchase.totalItems}}</p>
+              </div>
+              <div class="col-xs-3">
+                <p class="pull-right">Price:  {{purchase.totalPrice}}</p>
+              </div>
+            </div>
+          </a>
+        </h5>
+            </div>
+            <div id="{{purchase.id}}" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+              <div class="card-block">
+                <div class="container-fluid">
+                  <table class="table table-responsive table-hover">
+                    <thead>
+                      <th>Item</th>
+                      <th>Quantity</th>
+                      <th>Line Price</th>
+                    </thead>
+                    <tbody>
+                      {{#each purchase.products as |item|}}
+                        <tr>
+                          <td>{{item.[0].name}}</td>
+                          <td>{{item.[1]}}</td>
+                          <td>{{item.[0].price}}</td>
+                        </tr>
+                      {{/each}}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        {{/each}}
+      </div>
+    {{else}}
+      <h5>You have no purchases.</h5>
+    {{/if}}
+  </div>
 </div>

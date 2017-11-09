@@ -22,22 +22,21 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
               </button>
-              <a class="navbar-brand" href="#">Nozama</a>
+              <a class="navbar-brand dead-link" href="#">Nozama</a>
             </div>
             <div class="collapse navbar-collapse" id="siteNavbar">
               <ul class="nav navbar-nav">
-                <li data-user="user" class="hidden">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Dropdown 1 <span class="caret"></span></a>
-                  <ul class="dropdown-menu">
-                    <li><a href="#" data-view="new-list" id="nav-new-list">Dropdown 1 item</a></li>
-                    <li><a href="#" data-view="index-lists" id="nav-index-lists">Dropdown 1 item 2</a></li>
-                  </ul>
-                </li>
-                <li data-user="user" class="hidden">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" >Items <span class="caret"></span></a>
-
               </ul>
               <ul class="nav navbar-nav navbar-right">
+                <li data-user="user" class="hidden">
+                  <a href="#" id="nav-cart">
+                    <span class="glyphicon glyphicon-shopping-cart"></span>
+                    <span class="badge badge-info" id="nav-qty"></span>
+                  </a>
+                </li>
+                <li data-user="user" class="hidden">
+                  <a href="#" class="dead-link">$<span id="nav-price"></span></a>
+                </li>
                 <li data-user="no-user"><a href="#login-modal" data-toggle="modal"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
                 <li data-user="user" class="hidden">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" id="current-user">Current user</a>
@@ -55,7 +54,7 @@
       <!-- Define Modals  -->
 
       <!-- Sign-In modal -->
-      <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="buttonLabel" data-backdrop="false" aria-hidden="true">
+      <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" aria-labelledby="buttonLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">

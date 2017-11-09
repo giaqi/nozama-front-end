@@ -1,8 +1,11 @@
 'use strict'
-const store = require('../store.js')
+
 const handlebars = require('../handlebars.js')
 
 const onIndexSuccess = function (response, status, xhr) {
+  if (response.products.length === 0) {
+    throw new Error()
+  }
   handlebars.showItemIndex(response.products)
 }
 
