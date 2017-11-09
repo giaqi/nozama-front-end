@@ -308,6 +308,60 @@ const searchItems = function () {
     .catch(itemUI.onGetFailure)
 }
 
+const searchProductId = function (event) {
+  event.preventDefault()
+
+  const data = getFormFields(event.target)
+  // data = {product{id: val}}
+  itemApi.getItem(data.product.id)
+    .then((data) => {
+      store.user.currentProduct = data.product
+      ui.productIdToggle()
+      ui.productUpdateToggle()
+      ui.populateProduct(data.product)
+    })
+    .catch(ui.productLoadFailure)
+}
+
+const editProduct = function (event) {
+  event.preventDefault()
+  const data = getFormFields(event.target)
+
+  itemApi.updateItem(data)
+    .then(() => {
+      store.user.currentProduct = null
+      ui.productUpdateToggle()
+      ui.productUpdateSuccess()
+    })
+    .catch(ui.productUpdateFailure)
+}
+
+const deleteProduct = function (event) {
+  event.preventDefault()
+
+  const data = getFormFields(event.target)
+
+  itemApi.deleteItem(data.product.id)
+    .then(() => {
+      ui.product2IdToggle()
+      ui.deleteItemSuccess()
+    })
+    .catch(ui.deleteItemFailure)
+}
+
+const addProduct = function (event) {
+  event.preventDefault()
+
+  const data = getFormFields(event.target)
+  console.log(data)
+  itemApi.addItem(data)
+    .then(() => {
+      ui.addProductToggle()
+      ui.addSuccess()
+    })
+    .catch(ui.addFailure)
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -334,6 +388,17 @@ const addHandlers = function () {
   $('#item-view-modal').on('keyup', 'input[name="purchase[cvc]"]', cardCVCHelper)
   $('#content').on('click', 'a[data-backToShopping]', loadItemIndex)
   $('#content').on('click', 'button[data-search]', searchItems)
+  $('#content').on('click', 'a[data-updateProduct]', ui.productIdToggle)
+  $('#content').on('click', 'button[data-cancelProductId]', ui.productIdToggle)
+  $('#content').on('submit', '#product-id-form', searchProductId)
+  $('#content').on('click', 'button[data-cancelEditProduct]', ui.productUpdateToggle)
+  $('#content').on('submit', '#edit-product-form', editProduct)
+  $('#content').on('click', 'button[data-cancelProduct2Id]', ui.product2IdToggle)
+  $('#content').on('click', 'a[data-deleteProduct]', ui.product2IdToggle)
+  $('#content').on('submit', '#product-id-form2', deleteProduct)
+  $('#content').on('click', 'a[data-addProduct]', ui.addProductToggle)
+  $('#content').on('click', 'button[data-cancelAddProduct]', ui.addProductToggle)
+  $('#content').on('submit', '#add-product-form', addProduct)
 }
 
 module.exports = {

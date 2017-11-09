@@ -1,0 +1,122 @@
+<div class="container-fluid">
+  <section id="title">
+    <div class="jumbotron">
+      <h1>Nozama</h1>
+      <h3>Products Dashboard</h3>
+    </div>
+  </section>
+  <section id="links">
+    <div class="container-fluid">
+      <!-- TODO: Make me pretty -->
+      <div class="row"><a href="#" data-deleteProduct>Delete Product</a></div>
+      <div class='hidden' id="product-id-area2">
+        <form id="product-id-form2">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[id]" type="input" class="form-control" placeholder="Product ID" required>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <button class="btn btn-secondary" data-cancelProduct2Id>Cancel</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row"><a href="#" data-addProduct>Add a Product</a></div>
+      <div class="hidden" id="add-product-area">
+        <form id="add-product-form">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[name]" type="input" class="form-control" placeholder="Product Name" required>
+            </div>
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[price]" type="input" class="form-control" placeholder="Product Price" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[description]" type="input" class="form-control" placeholder="Product Description" required>
+            </div>
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[picture_URL]" type="input" class="form-control" placeholder="Picture URL" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <button class="btn btn-secondary" data-cancelAddProduct>Cancel</button>
+              <button type="submit" class="btn btn-primary" data-submitAddProduct>Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="row"><a href="#" data-updateProduct>Update Product</a></div>
+      <div class="hidden" id="product-id-area">
+        <form id="product-id-form">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[id]" type="input" class="form-control" placeholder="Product ID" required>
+            </div>
+            <div class="col-xs-12 col-sm-4">
+              <button class="btn btn-secondary" data-cancelProductId>Cancel</button>
+              <button type="submit" class="btn btn-primary" data-submitProductId>Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="hidden" id="edit-product-area">
+        <form id="edit-product-form">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[name]" type="input" class="form-control" placeholder="Product Name" required>
+            </div>
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[price]" type="input" class="form-control" placeholder="Product Price" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[description]" type="input" class="form-control" placeholder="Product Description" required>
+            </div>
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[picture_URL]" type="input" class="form-control" placeholder="Picture URL" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <button class="btn btn-secondary" data-cancelEditProduct>Cancel</button>
+              <button type="submit" class="btn btn-primary" data-submitEditProduct>Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+</div>
+</section>
+
+<section id="purchase-history"></section>
+</div>
+
+
+<!-- const productSchema = new mongoose.Schema({
+  picture_URL: {
+    type: String,
+    required: true
+  },
+  name: {
+    type: String,
+    required: true
+  },
+  description: {
+    type: String,
+    required: true
+  },
+  price: {
+    type: Number,
+    required: true
+  }
+}, {
+  timestamps: true,
+  toJSON: {
+    virtuals: true
+  }
+}) -->
