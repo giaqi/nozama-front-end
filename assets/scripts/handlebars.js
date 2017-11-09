@@ -13,6 +13,10 @@ const accountManagement = function (data) {
   data.forEach(purchase => {
     const date = new Date(purchase.createdAt)
     purchase.createdAt = date.toLocaleDateString() + ' at ' + date.toLocaleTimeString()
+    purchase.totalPrice = purchase.totalPrice.toFixed(2)
+    purchase.products.forEach(i => {
+      i[0].price = (i[1] * i[0].price).toFixed(2)
+    })
   })
 
   const showAccountManagementHtml = showAccountManagementTemplate({purchases: data})

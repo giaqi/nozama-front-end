@@ -124,6 +124,7 @@ const onPurchaseSuccess = function (response, status, xhr) {
   $('#alert-modal-content').addClass('alert-success')
   $('#alert-modal-content').html('<p>Purchase successful</p>')
   $('#alertModal').modal('show')
+  store.user.cart = []
   store.user.cartItemPrice = null
   store.user.cartItemTotal = null
   updateCartDisplay()
