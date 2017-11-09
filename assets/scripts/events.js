@@ -308,6 +308,16 @@ const searchItems = function () {
     .catch(itemUI.onGetFailure)
 }
 
+const searchProductId = function (event) {
+  event.preventDefault()
+
+  const data = getFormFields(event.target)
+  // data = {product{id: val}}
+  itemApi.getItem(data.product.id)
+    .then(console.log)
+    .catch(console.error)
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -336,6 +346,7 @@ const addHandlers = function () {
   $('#content').on('click', 'button[data-search]', searchItems)
   $('#content').on('click', 'a[data-updateProduct]', ui.productIdToggle)
   $('#content').on('click', 'button[data-cancelProductId]', ui.productIdToggle)
+  $('#content').on('submit', '#product-id-form', searchProductId)
 }
 
 module.exports = {
