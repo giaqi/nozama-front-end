@@ -6,6 +6,7 @@ const onIndexSuccess = function (response, status, xhr) {
   if (response.products.length === 0) {
     throw new Error()
   }
+  $('#item-view-modal').modal('hide')
   handlebars.showItemIndex(response.products)
 }
 
@@ -20,6 +21,7 @@ const onGetSuccess = function (response, status, xhr) {
 
 const onGetFailure = function (response, status, xhr) {
   handlebars.itemFailure()
+  $('input[data-search]').val('')
   $('#item-view-modal').modal('show')
 }
 
