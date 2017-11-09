@@ -299,13 +299,15 @@ const loadAccountManagement = function () {
 
 const searchItems = function () {
   const searchFor = $('input[data-search]').val()
-  itemApi.getByName(searchFor)
-    .then(itemUI.onIndexSuccess)
-    .then(() => {
-      $('#result').html('<p>Search results for: ' + searchFor + '</p><a href="#" data-backToShopping>Return to all items</a>')
-      return true
-    })
-    .catch(itemUI.onGetFailure)
+  if (searchFor.length > 0) {
+    itemApi.getByName(searchFor)
+      .then(itemUI.onIndexSuccess)
+      .then(() => {
+        $('#result').html('<p>Search results for: ' + searchFor + '</p><a href="#" data-backToShopping>Return to all items</a>')
+        return true
+      })
+      .catch(itemUI.onGetFailure)
+  }
 }
 
 const searchProductId = function (event) {
@@ -385,6 +387,7 @@ const addHandlers = function () {
   $('#item-view-modal').on('keyup', 'input[name="purchase[exp]"]', cardExpHelper)
   $('#item-view-modal').on('keyup', 'input[name="purchase[card]"]', cardHelper)
   $('#item-view-modal').on('keyup', 'input[name="purchase[cvc]"]', cardCVCHelper)
+  $('#item-view-modal').on('click', 'a[data-backToShopping]', loadItemIndex)
   $('#content').on('click', 'a[data-backToShopping]', loadItemIndex)
   $('#content').on('click', 'button[data-search]', searchItems)
   $('#content').on('click', 'a[data-updateProduct]', ui.productIdToggle)
