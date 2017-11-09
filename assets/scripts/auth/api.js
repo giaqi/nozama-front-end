@@ -97,6 +97,16 @@ const buyCart = function () {
   })
 }
 
+const getPurchases = function () {
+  return $.ajax({
+    url: config.apiOrigin + '/purchases',
+    method: 'GET',
+    headers: {
+      Authorization: 'Token token=' + store.user.token
+    }
+  })
+}
+
 module.exports = {
   signUp,
   signIn,
@@ -106,5 +116,6 @@ module.exports = {
   addToCart,
   clearCart,
   removeCartItem,
-  buyCart
+  buyCart,
+  getPurchases
 }

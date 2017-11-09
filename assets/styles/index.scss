@@ -87,3 +87,10 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 .dead-link {
   pointer-events: none;
 }
+
+div.accordion-row:hover {
+  background-color: #6bbaa7;
+  border-radius: 8px;
+  font-size: 120%;
+  padding: 10px;
+}

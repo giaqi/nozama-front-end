@@ -272,13 +272,19 @@ const cardCVCHelper = function (event) {
   }
 }
 
+const loadAccountManagement = function () {
+  authApi.getPurchases()
+    .then(authUI.onGetPurchases)
+    .catch(authUI.onGetFailure)
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
   $('#content').on('submit', '#change-password-form', changePassword)
   $('.navbar-btn').on('click', tryCollapse)
   $('input[data-newuser]').on('change', showPasswordConfirmation)
-  $('#account-management').on('click', handlebars.accountManagement)
+  $('#account-management').on('click', loadAccountManagement)
   $('#content').on('click', 'button[data-cancelChange]', ui.hidePasswordChange)
   $('#content').on('click', 'a[data-changePassword]', ui.passwordChangeToggle)
   $('#alertModal').on('hidden.bs.modal', clearAlertModal)
@@ -296,6 +302,7 @@ const addHandlers = function () {
   $('#item-view-modal').on('keyup', 'input[name="purchase[exp]"]', cardExpHelper)
   $('#item-view-modal').on('keyup', 'input[name="purchase[card]"]', cardHelper)
   $('#item-view-modal').on('keyup', 'input[name="purchase[cvc]"]', cardCVCHelper)
+  $('#content').on('click', 'a[data-backToShopping]', loadItemIndex)
 }
 
 module.exports = {

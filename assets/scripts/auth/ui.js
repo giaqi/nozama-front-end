@@ -133,6 +133,18 @@ const onPurchaseFailure = function (response, status, xhr) {
   $('#alertModal').modal('show')
 }
 
+const onGetPurchases = function (response, status, xhr) {
+  console.log(response.purchases)
+  handlebars.accountManagement(response.purchases)
+}
+
+const onGetFailure = function (response, status, xhr) {
+  console.log('in onGetPurchase failure')
+  console.log(response)
+  console.log(status)
+  console.log(xhr)
+}
+
 module.exports = {
   signUpSuccess,
   signInSuccess,
@@ -147,5 +159,7 @@ module.exports = {
   onAddToCartSuccess,
   onAddToCartFailure,
   onPurchaseSuccess,
-  onPurchaseFailure
+  onPurchaseFailure,
+  onGetFailure,
+  onGetPurchases
 }
