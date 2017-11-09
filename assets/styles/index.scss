@@ -2,10 +2,14 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 @import '~//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css';
 @import '~bootstrap-sass/assets/stylesheets/bootstrap';
 
-// TODO: Get this out of here
-.modal-backdrop.in {
-  filter: alpha(opacity=50);
-  opacity: 0;
+$aqua: #6bbaa7;
+$error-red: #dc3545;
+
+.modal-backdrop {
+  .in {
+    filter: alpha(opacity=50);
+    opacity: 0;
+  }
 }
 
 .small-product {
@@ -19,8 +23,10 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
   margin: auto;
 }
 
-.jumbotron h1 {
-  text-align: center;
+.jumbotron {
+  h1 {
+    text-align: center;
+  }
 }
 
 .modal-img {
@@ -65,15 +71,32 @@ $icon-font-path: '~bootstrap-sass/assets/fonts/bootstrap/';
 }
 
 .row-vextor {
-  height: 100%;
   display: table-row;
+  height: 100%;
 }
 
-.row .no-float {
-  display: table-cell;
-  float: none;
+.row {
+  .no-float {
+    display: table-cell;
+    float: none;
+  }
 }
 
 .vertical-rule-left {
   border-left-style: solid;
+}
+
+.dead-link {
+  pointer-events: none;
+}
+
+div.accordion-row:hover {
+  background-color: $aqua;
+  border-radius: 8px;
+  font-size: 120%;
+  padding: 10px;
+}
+
+.is-invalid {
+  border-color: $error-red;
 }

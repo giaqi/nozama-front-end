@@ -1,15 +1,21 @@
 'use strict'
 const store = require('./store')
 
-const accountManagementTemplate = require('./templates/account-management.handlebars')
+const showAccountManagementTemplate = require('./templates/account-management.handlebars')
 const showItemIndexTemplate = require('./templates/index_items.handlebars')
 const showItemTemplate = require('./templates/item.handlebars')
 const itemFailureTemplate = require('./templates/item_failure.handlebars')
 const showCartTemplate = require('./templates/cart.handlebars')
 const checkoutTemplate = require('./templates/checkout.handlebars')
 
-const accountManagement = function () {
-  showContent(accountManagementTemplate())
+const accountManagement = function (data) {
+  data.forEach(purchase => {
+    const date = new Date(purchase.createdAt)
+    purchase.createdAt = date.toLocaleDateString() + ' at ' + date.toLocaleTimeString()
+  })
+
+  const showAccountManagementHtml = showAccountManagementTemplate({purchases: data})
+  showContent(showAccountManagementHtml)
 }
 
 const showItemIndex = function (data) {
