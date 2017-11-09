@@ -136,12 +136,10 @@ const onPurchaseFailure = function (response, status, xhr) {
 }
 
 const onGetPurchases = function (response, status, xhr) {
-  console.log(response.purchases)
   handlebars.accountManagement(response.purchases)
 }
 
 const onGetFailure = function (response, status, xhr) {
-  console.log(response.purchases)
   handlebars.accountManagement(response.purchases)
 }
 

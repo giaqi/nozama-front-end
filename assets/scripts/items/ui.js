@@ -14,7 +14,6 @@ const onIndexFailure = function (response, status, xhr) {
 }
 
 const onGetSuccess = function (response, status, xhr) {
-  console.log(response)
   handlebars.showItemSmall(response.product)
   $('#item-view-modal').modal('show')
 }
