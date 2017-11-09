@@ -16,7 +16,15 @@ const getItem = function (data) {
   })
 }
 
+const getByName = function (data) {
+  return $.ajax({
+    url: config.apiOrigin + '/products?name=' + data,
+    method: 'GET'
+  })
+}
+
 module.exports = {
   indexItems,
-  getItem
+  getItem,
+  getByName
 }
