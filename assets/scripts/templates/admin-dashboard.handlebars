@@ -23,6 +23,32 @@
         </form>
       </div>
       <div class="row"><a href="#" data-addProduct>Add a Product</a></div>
+      <div class="hidden" id="add-product-area">
+        <form id="add-product-form">
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[name]" type="input" class="form-control" placeholder="Product Name" required>
+            </div>
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[price]" type="input" class="form-control" placeholder="Product Price" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[description]" type="input" class="form-control" placeholder="Product Description" required>
+            </div>
+            <div class="form-group col-xs-12 col-sm-4">
+              <input name="product[picture_URL]" type="input" class="form-control" placeholder="Picture URL" required>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-xs-12 col-sm-4">
+              <button class="btn btn-secondary" data-cancelAddProduct>Cancel</button>
+              <button type="submit" class="btn btn-primary" data-submitAddProduct>Submit</button>
+            </div>
+          </div>
+        </form>
+      </div>
       <div class="row"><a href="#" data-updateProduct>Update Product</a></div>
       <div class="hidden" id="product-id-area">
         <form id="product-id-form">

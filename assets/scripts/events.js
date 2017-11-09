@@ -347,8 +347,19 @@ const deleteProduct = function (event) {
       ui.deleteItemSuccess()
     })
     .catch(ui.deleteItemFailure)
+}
 
-    // 5a026003a6e14e58755ef41b
+const addProduct = function (event) {
+  event.preventDefault()
+
+  const data = getFormFields(event.target)
+  console.log(data)
+  itemApi.addItem(data)
+    .then(() => {
+      ui.addProductToggle()
+      ui.addSuccess()
+    })
+    .catch(ui.addFailure)
 }
 
 const addHandlers = function () {
@@ -385,6 +396,9 @@ const addHandlers = function () {
   $('#content').on('click', 'button[data-cancelProduct2Id]', ui.product2IdToggle)
   $('#content').on('click', 'a[data-deleteProduct]', ui.product2IdToggle)
   $('#content').on('submit', '#product-id-form2', deleteProduct)
+  $('#content').on('click', 'a[data-addProduct]', ui.addProductToggle)
+  $('#content').on('click', 'button[data-cancelAddProduct]', ui.addProductToggle)
+  $('#content').on('submit', '#add-product-form', addProduct)
 }
 
 module.exports = {

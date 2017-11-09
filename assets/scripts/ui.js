@@ -44,6 +44,20 @@ const product2IdToggle = function (event) {
   }
 }
 
+const addProductToggle = function (event) {
+  const hidden = $('#add-product-area').hasClass('hidden')
+
+  if (hidden) {
+    $('#add-product-area').removeClass('hidden')
+  } else {
+    $('input[name="product[name]"]').val('')
+    $('input[name="product[price]"]').val('')
+    $('input[name="product[description]"]').val('')
+    $('input[name="product[picture_URL]"]').val('')
+    $('#add-product-area').addClass('hidden')
+  }
+}
+
 const productUpdateToggle = function (event) {
   const hidden = $('#edit-product-area').hasClass('hidden')
 
@@ -98,6 +112,19 @@ const deleteItemFailure = function () {
   product2IdToggle()
 }
 
+const addSuccess = function () {
+  $('#alert-modal-content').addClass('alert-success')
+  $('#alert-modal-content').html('<p>Product add success!</p>')
+  $('#alertModal').modal('show')
+}
+
+const addFailure = function () {
+  $('#alert-modal-content').addClass('alert-danger')
+  $('#alert-modal-content').html('<p>Product add failed!</p>')
+  $('#alertModal').modal('show')
+  addProductToggle()
+}
+
 module.exports = {
   passwordChangeToggle,
   hidePasswordChange,
@@ -110,5 +137,8 @@ module.exports = {
   productUpdateFailure,
   product2IdToggle,
   deleteItemSuccess,
-  deleteItemFailure
+  deleteItemFailure,
+  addProductToggle,
+  addSuccess,
+  addFailure
 }
