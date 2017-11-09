@@ -3,6 +3,9 @@ const store = require('../store.js')
 const handlebars = require('../handlebars.js')
 
 const onIndexSuccess = function (response, status, xhr) {
+  if (response.products.length === 0) {
+    throw new Error()
+  }
   handlebars.showItemIndex(response.products)
 }
 
@@ -11,6 +14,7 @@ const onIndexFailure = function (response, status, xhr) {
 }
 
 const onGetSuccess = function (response, status, xhr) {
+  console.log(response)
   handlebars.showItemSmall(response.product)
   $('#item-view-modal').modal('show')
 }

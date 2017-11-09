@@ -297,6 +297,17 @@ const loadAccountManagement = function () {
     .catch(authUI.onGetFailure)
 }
 
+const searchItems = function () {
+  const searchFor = $('input[data-search]').val()
+  itemApi.getByName(searchFor)
+    .then(itemUI.onIndexSuccess)
+    .then(() => {
+      $('#result').html('<p>Search results for: ' + searchFor + '</p><a href="#" data-backToShopping>Return to all items</a>')
+      return true
+    })
+    .catch(itemUI.onGetFailure)
+}
+
 const addHandlers = function () {
   $('#sign-out').on('click', signOutUser)
   $('#signin').on('submit', formLoginAction)
@@ -322,6 +333,7 @@ const addHandlers = function () {
   $('#item-view-modal').on('keyup', 'input[name="purchase[card]"]', cardHelper)
   $('#item-view-modal').on('keyup', 'input[name="purchase[cvc]"]', cardCVCHelper)
   $('#content').on('click', 'a[data-backToShopping]', loadItemIndex)
+  $('#content').on('click', 'button[data-search]', searchItems)
 }
 
 module.exports = {
