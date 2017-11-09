@@ -23,21 +23,21 @@ const adminDashboard = function () {
 }
 
 const showItemIndex = function (data) {
+  data.forEach(i => { i.price = i.price.toFixed(2) })
   const showItemIndexHtml = showItemIndexTemplate({products: data})
   showContent(showItemIndexHtml)
 }
 
 const showItemSmall = function (data) {
+  data.price = data.price.toFixed(2)
   const showItemSmallHtml = showItemTemplate({product: data})
   showItemView(showItemSmallHtml)
 }
 
 const showCartView = function () {
   const data = store.user.cart
-  // data.forEach(i => { data[i]['total'] = data[i][1] * data[i][0]['price'] })
   data.forEach(i => { i[0].price = (i[0].price * i[1]).toFixed(2) })
   data.forEach(i => { i[0].quantity = i[1] })
-  // data.forEach(i => console.log(i[0]))
   const cart = data.map(i => i[0])
   const showCartHtml = showCartTemplate({ cart: cart, price: store.user.cartItemPrice, total: store.user.cartItemTotal })
   showItemView(showCartHtml)
@@ -45,10 +45,6 @@ const showCartView = function () {
 
 const checkoutView = function () {
   const data = store.user.cart
-  // data.forEach(i => { data[i]['total'] = data[i][1] * data[i][0]['price'] })
-  // data.forEach(i => { i[0].price = (i[0].price * i[1]).toFixed(2) })
-  // data.forEach(i => { i[0].quantity = i[1] })
-  // data.forEach(i => console.log(i[0]))
   const cart = data.map(i => i[0])
   const checkoutHtml = checkoutTemplate({ cart: cart, price: store.user.cartItemPrice, total: store.user.cartItemTotal })
   showItemView(checkoutHtml)
